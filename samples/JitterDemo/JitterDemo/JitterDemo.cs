@@ -220,7 +220,7 @@ namespace JitterDemo
             mouseState = Mouse.GetState();
 
             // let the user escape the demo
-            if (PressedOnce(Keys.Escape, Buttons.Back)) this.Exit();
+            if (PressedOnce(Keys.Escape, Buttons.Back)) this.EndRun();
 
             // change threading mode
             if (PressedOnce(Keys.M, Buttons.A)) multithread = !multithread;
@@ -247,13 +247,13 @@ namespace JitterDemo
 
                 ray = JVector.Normalize(ray) * 100;
 
-                float fraction;
+                double fraction;
 
                 bool result = World.CollisionSystem.Raycast(camp, ray, RaycastCallback, out grabBody, out hitNormal, out fraction);
 
                 if (result)
                 {
-                    hitPoint = camp + fraction * ray;
+                    hitPoint = camp + (float)fraction * ray;
 
                     if (grabConstraint != null) World.RemoveConstraint(grabConstraint);
 
@@ -340,7 +340,7 @@ namespace JitterDemo
 
 
 
-        private bool RaycastCallback(RigidBody body, JVector normal, float fraction)
+        private bool RaycastCallback(RigidBody body, JVector normal, double fraction)
         {
             if (body.IsStatic) return false;
             else return true;
@@ -469,25 +469,25 @@ namespace JitterDemo
             else if (shape is SphereShape)
             {
                 primitive = primitives[(int)Primitives.sphere];
-                scaleMatrix = Matrix.CreateScale((shape as SphereShape).Radius);
+                scaleMatrix = Matrix.CreateScale((float)(shape as SphereShape).Radius);
             }
             else if (shape is CylinderShape)
             {
                 primitive = primitives[(int)Primitives.cylinder];
                 CylinderShape cs = shape as CylinderShape;
-                scaleMatrix = Matrix.CreateScale(cs.Radius, cs.Height, cs.Radius);
+                scaleMatrix = Matrix.CreateScale((float)cs.Radius, (float)cs.Height, (float)cs.Radius);
             }
             else if (shape is CapsuleShape)
             {
                 primitive = primitives[(int)Primitives.capsule];
                 CapsuleShape cs = shape as CapsuleShape;
-                scaleMatrix = Matrix.CreateScale(cs.Radius * 2, cs.Length, cs.Radius * 2);
+                scaleMatrix = Matrix.CreateScale((float)cs.Radius * 2, (float)cs.Length, (float)cs.Radius * 2);
 
             }
             else if (shape is ConeShape)
             {
                 ConeShape cs = shape as ConeShape;
-                scaleMatrix = Matrix.CreateScale(cs.Radius, cs.Height, cs.Radius);
+                scaleMatrix = Matrix.CreateScale((float)cs.Radius, (float)cs.Height, (float)cs.Radius);
                 primitive = primitives[(int)Primitives.cone];
             }
 

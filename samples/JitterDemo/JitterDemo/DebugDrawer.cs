@@ -79,11 +79,11 @@ namespace JitterDemo
         private float GetElement(JVector v, int index)
         {
             if (index == 0)
-                return v.X;
+                return (float)v.X;
             if (index == 1)
-                return v.Y;
+                return (float)v.Y;
             if (index == 2)
-                return v.Z;
+                return (float)v.Z;
 
             throw new ArgumentOutOfRangeException("index");
         }

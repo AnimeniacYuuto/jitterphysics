@@ -175,7 +175,7 @@ namespace Jitter.Forces
         /// 
         /// </summary>
         /// <param name="timeStep"></param>
-        public override void PreStep(float timeStep)
+        public override void PreStep(double timeStep)
         {
             float damping = (float)Math.Pow(Damping, timeStep);
 

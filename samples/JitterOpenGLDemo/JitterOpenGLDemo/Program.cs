@@ -127,7 +127,7 @@ namespace JitterOpenGLDemo
                     if (body.IsActive) dsSetColor(1,1,0);
                     else dsSetColor(0.5f, 0.5f, 1);
 
-                    dsDrawSphere(body.Position, body.Orientation, shape.Radius-0.1f);
+                    dsDrawSphere(body.Position, body.Orientation, (float)shape.Radius-0.1f);
                 }
             }
         }

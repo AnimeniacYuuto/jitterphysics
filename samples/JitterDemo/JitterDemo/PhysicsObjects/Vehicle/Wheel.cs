@@ -175,7 +175,7 @@ namespace JitterDemo
             if (timeStep <= 0.0f) return;
 
             float origAngVel = angVel;
-            upSpeed = (displacement - lastDisplacement) / System.Math.Max(timeStep, JMath.Epsilon);
+            upSpeed = (float)(displacement - lastDisplacement) / (float)System.Math.Max(timeStep, JMath.Epsilon);
 
             if (Locked)
             {
@@ -199,18 +199,18 @@ namespace JitterDemo
                 driveTorque = 0;
 
                 float maxAngVel = this.MaximumAngularVelocity;
-                angVel = JMath.Clamp(angVel, -maxAngVel, maxAngVel);
+                angVel = (float)JMath.Clamp(angVel, -maxAngVel, maxAngVel);
 
-                WheelRotation += (timeStep * angVel) / (2*JMath.Pi) * 360.0f;
+                WheelRotation += (float)((timeStep * angVel) / (2*JMath.Pi) * 360.0f);
             }
         }
 
         public void PreStep(float timeStep)
         {
-            float vel = car.LinearVelocity.Length();
+            float vel = (float)car.LinearVelocity.Length();
 
-            SideFriction = 2.5f - JMath.Clamp(vel / 20.0f, 0.0f, 1.4f);
-            ForwardFriction = 5.5f - JMath.Clamp(vel / 20.0f, 0.0f, 5.4f);
+            SideFriction = 2.5f - (float)JMath.Clamp(vel / 20.0f, 0.0f, 1.4f);
+            ForwardFriction = 5.5f - (float)JMath.Clamp(vel / 20.0f, 0.0f, 5.4f);
 
             JVector force = JVector.Zero;
 
@@ -251,7 +251,7 @@ namespace JitterDemo
 
                 JVector newOrigin = wheelRayStart + distFwd * wheelFwd + zOffset * wheelUp;
 
-                RigidBody body; JVector normal; float frac;
+                RigidBody body; JVector normal; double frac;
                 bool result = world.CollisionSystem.Raycast(newOrigin, wheelDelta,
                     raycast, out body, out normal, out frac);
 
@@ -261,7 +261,7 @@ namespace JitterDemo
                 {
                     if (frac < deepestFrac)
                     {
-                        deepestFrac = frac;
+                        deepestFrac = (float)frac;
                         groundPos = rayOrigin + frac * wheelDelta;
                         worldBody = body;
                         groundNormal = normal;
@@ -279,12 +279,12 @@ namespace JitterDemo
             
 
             displacement = rayLen * (1.0f - deepestFrac);
-            displacement = JMath.Clamp(displacement, 0.0f,WheelTravel);
+            displacement = (float)JMath.Clamp(displacement, 0.0f,WheelTravel);
 
             float displacementForceMag = displacement * Spring;
 
             // reduce force when suspension is par to ground
-            displacementForceMag *= Math.Abs(JVector.Dot(groundNormal, worldAxis));
+            displacementForceMag *= (float)Math.Abs(JVector.Dot(groundNormal, worldAxis));
 
             // apply damping
             float dampingForceMag = upSpeed * Damping;
@@ -323,7 +323,7 @@ namespace JitterDemo
             float smallVel = 3;
             float friction = SideFriction;
 
-            float sideVel = JVector.Dot(wheelPointVel, groundLeft);
+            float sideVel = (float)JVector.Dot(wheelPointVel, groundLeft);
 
             if ((sideVel > slipVel) || (sideVel < -slipVel))
                 friction *= slipFactor;
@@ -344,7 +344,7 @@ namespace JitterDemo
 
             // fwd/back forces
             friction = ForwardFriction;
-            float fwdVel = JVector.Dot(wheelPointVel, groundFwd);
+            float fwdVel = (float)JVector.Dot(wheelPointVel, groundFwd);
 
             if ((fwdVel > slipVel) || (fwdVel < -slipVel))
                 friction *= slipFactor;
@@ -367,7 +367,7 @@ namespace JitterDemo
             JVector wheelCentreVel = car.LinearVelocity +
              JVector.Cross(car.AngularVelocity, JVector.Transform(Position, car.Orientation));
 
-            angVelForGrip = JVector.Dot(wheelCentreVel, groundFwd) / Radius;
+            angVelForGrip = (float)JVector.Dot(wheelCentreVel, groundFwd) / Radius;
             torque += -fwdForce * Radius;
 
             // add force to car
@@ -381,7 +381,7 @@ namespace JitterDemo
 
         }
 
-        private bool RaycastCallback(RigidBody body, JVector normal, float frac)
+        private bool RaycastCallback(RigidBody body, JVector normal, double frac)
         {
             return (body != car);
         }

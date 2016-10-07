@@ -27,8 +27,9 @@ namespace JitterDemo.Scenes
             {
                 return (float)(Math.Cos(a * 0.2f) * Math.Sin(b * 0.2f) * 2.0f);
             }));
+            double[,] array = ConvertArray(terrain.heights);
 
-            TerrainShape shape = new TerrainShape(terrain.heights, 1.0f, 1.0f);
+            TerrainShape shape = new TerrainShape(array, 1.0f, 1.0f);
             
             RigidBody body = new RigidBody(shape);
             body.Position -= new JVector(50, 0, 50);
@@ -38,6 +39,15 @@ namespace JitterDemo.Scenes
             Demo.World.AddBody(body);
 
             AddCar(new JVector(0, 4, 0));
+        }
+        private double[,] ConvertArray(float[,] vals) {
+            if (vals == null)
+                return null;
+            double[,] rets = new double[vals.GetLength(0), vals.GetLength(1)];
+            for (long i = 0; i < rets.LongLength; i++) {
+                rets.SetValue((double)vals.GetValue(i), i);
+            }
+            return rets;
         }
 
         public override void Draw()

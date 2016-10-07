@@ -38,7 +38,7 @@ namespace Jitter.Forces
         /// 
         /// </summary>
         /// <param name="timeStep"></param>
-        public virtual void PreStep(float timeStep)
+        public virtual void PreStep(double timeStep)
         {
         }
 
@@ -46,7 +46,7 @@ namespace Jitter.Forces
         /// 
         /// </summary>
         /// <param name="timeStep"></param>
-        public virtual void PostStep(float timeStep)
+        public virtual void PostStep(double timeStep)
         {
         }
 

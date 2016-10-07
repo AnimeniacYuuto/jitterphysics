@@ -15,17 +15,17 @@ namespace JitterDemo
 
         public static Matrix ToXNAMatrix(JMatrix matrix)
         {
-            return new Matrix(matrix.M11,
-                            matrix.M12,
-                            matrix.M13,
+            return new Matrix((float)matrix.M11,
+                            (float)matrix.M12,
+                            (float)matrix.M13,
                             0.0f,
-                            matrix.M21,
-                            matrix.M22,
-                            matrix.M23,
+                            (float)matrix.M21,
+                            (float)matrix.M22,
+                            (float)matrix.M23,
                             0.0f,
-                            matrix.M31,
-                            matrix.M32,
-                            matrix.M33,
+                            (float)matrix.M31,
+                            (float)matrix.M32,
+                            (float)matrix.M33,
                             0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
         }
 
@@ -48,7 +48,7 @@ namespace JitterDemo
 
         public static Vector3 ToXNAVector(JVector vector)
         {
-            return new Vector3(vector.X, vector.Y, vector.Z);
+            return new Vector3((float)vector.X, (float)vector.Y, (float)vector.Z);
         }
     }
 }

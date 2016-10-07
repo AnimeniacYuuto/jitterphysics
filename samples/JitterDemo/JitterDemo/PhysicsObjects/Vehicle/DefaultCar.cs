@@ -103,12 +103,12 @@ namespace JitterDemo
         /// </summary>
         public void AdjustWheelValues()
         {
-            float mass = this.Mass / 4;
+            float mass = (float)this.Mass / 4;
 
             foreach (Wheel w in wheels)
             {
                 w.Inertia = 0.5f * (w.Radius * w.Radius) * mass;
-                w.Spring = mass * world.Gravity.Length() / (w.WheelTravel * springFrac);
+                w.Spring = (float)(mass * world.Gravity.Length() / (w.WheelTravel * springFrac));
                 w.Damping = 2.0f * (float)System.Math.Sqrt(w.Spring * this.Mass) * 0.25f * dampingFrac;
             }
         }
@@ -133,23 +133,23 @@ namespace JitterDemo
             destSteering = steer;
         }
 
-        public override void PreStep(float timestep)
+        public override void PreStep(double timestep)
         {
-            foreach (Wheel w in wheels) w.PreStep(timestep);
+            foreach (Wheel w in wheels) w.PreStep((float)timestep);
         }
 
-        public override void PostStep(float timestep)
+        public override void PostStep(double timestep)
         {
-            float deltaAccelerate = timestep * AccelerationRate;
-            float deltaSteering = timestep * SteerRate;
+            float deltaAccelerate = (float)timestep * AccelerationRate;
+            float deltaSteering = (float)timestep * SteerRate;
 
             float dAccelerate = destAccelerate - accelerate;
-            dAccelerate = JMath.Clamp(dAccelerate, -deltaAccelerate, deltaAccelerate);
+            dAccelerate = (float)JMath.Clamp(dAccelerate, -deltaAccelerate, deltaAccelerate);
 
             accelerate += dAccelerate;
 
             float dSteering = destSteering - steering;
-            dSteering = JMath.Clamp(dSteering, -deltaSteering, deltaSteering);
+            dSteering = (float)JMath.Clamp(dSteering, -deltaSteering, deltaSteering);
 
             steering += dSteering;
 
@@ -166,7 +166,7 @@ namespace JitterDemo
             wheels[(int)WheelPosition.FrontRight].SteerAngle = alpha;
 
 
-            foreach (Wheel w in wheels) w.PostStep(timestep);
+            foreach (Wheel w in wheels) w.PostStep((float)timestep);
         }
 
 
