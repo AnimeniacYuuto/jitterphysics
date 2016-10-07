@@ -50,7 +50,7 @@ namespace Jitter.Collision
                 this.Axis = axis;
             }
 
-            public float Value
+            public double Value
             {
                 get
                 {
@@ -147,8 +147,8 @@ namespace Jitter.Collision
 
         private int QuickSort(SweepPoint sweepPoint1, SweepPoint sweepPoint2)
         {
-            float val1 = sweepPoint1.Value;
-            float val2 = sweepPoint2.Value;
+            double val1 = sweepPoint1.Value;
+            double val2 = sweepPoint2.Value;
 
             if (val1 > val2) return 1;
             else if (val2 > val1) return -1;
@@ -191,7 +191,7 @@ namespace Jitter.Collision
             for (int j = 1; j < axis.Count; j++)
             {
                 SweepPoint keyelement = axis[j];
-                float key = keyelement.Value;
+                double key = keyelement.Value;
 
                 int i = j - 1;
 
@@ -359,14 +359,14 @@ namespace Jitter.Collision
         //    while (true)
         //    {
         //        steps++;
-        //        float distance1 = (axis1[index1].Value - rayOrigin.X) / rayDirection.X;
-        //        float distance2 = (axis2[index2].Value - rayOrigin.Y) / rayDirection.Y;
-        //        float distance3 = (axis3[index3].Value - rayOrigin.Z) / rayDirection.Z;
+        //        double distance1 = (axis1[index1].Value - rayOrigin.X) / rayDirection.X;
+        //        double distance2 = (axis2[index2].Value - rayOrigin.Y) / rayDirection.Y;
+        //        double distance3 = (axis3[index3].Value - rayOrigin.Z) / rayDirection.Z;
 
 
-        //        float dist1 = Math.Abs(distance1);
-        //        float dist2 = Math.Abs(distance2);
-        //        float dist3 = Math.Abs(distance3);
+        //        double dist1 = Math.Abs(distance1);
+        //        double dist2 = Math.Abs(distance2);
+        //        double dist3 = Math.Abs(distance3);
 
         //        if (dist1 < dist2)
         //        {
@@ -440,12 +440,12 @@ namespace Jitter.Collision
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
-        #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out float fraction)
-        public override bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, out RigidBody body, out JVector normal, out float fraction)
+        #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out double fraction)
+        public override bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, out RigidBody body, out JVector normal, out double fraction)
         {
-            body = null; normal = JVector.Zero; fraction = float.MaxValue;
+            body = null; normal = JVector.Zero; fraction = double.MaxValue;
 
-            JVector tempNormal;float tempFraction;
+            JVector tempNormal;double tempFraction;
             bool result = false;
 
             // TODO: This can be done better in CollisionSystemPersistenSAP
@@ -495,10 +495,10 @@ namespace Jitter.Collision
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
-        #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction)
-        public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction)
+        #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out double fraction)
+        public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out double fraction)
         {
-            fraction = float.MaxValue; normal = JVector.Zero;
+            fraction = double.MaxValue; normal = JVector.Zero;
 
             if (!body.BoundingBox.RayIntersect(ref rayOrigin, ref rayDirection)) return false;
 
@@ -506,7 +506,7 @@ namespace Jitter.Collision
             {
                 Multishape ms = (body.Shape as Multishape).RequestWorkingClone();
                 
-                JVector tempNormal;float tempFraction;
+                JVector tempNormal;double tempFraction;
                 bool multiShapeCollides = false;
 
                 JVector transformedOrigin; JVector.Subtract(ref rayOrigin, ref body.position, out transformedOrigin);

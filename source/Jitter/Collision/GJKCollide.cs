@@ -52,9 +52,9 @@ namespace Jitter.Collision
 
             support.SupportMapping(ref result, out result);
 
-            float x = ((result.X * orientation.M11) + (result.Y * orientation.M21)) + (result.Z * orientation.M31);
-            float y = ((result.X * orientation.M12) + (result.Y * orientation.M22)) + (result.Z * orientation.M32);
-            float z = ((result.X * orientation.M13) + (result.Y * orientation.M23)) + (result.Z * orientation.M33);
+            double x = ((result.X * orientation.M11) + (result.Y * orientation.M21)) + (result.Z * orientation.M31);
+            double y = ((result.X * orientation.M12) + (result.Y * orientation.M22)) + (result.Z * orientation.M32);
+            double z = ((result.X * orientation.M13) + (result.Y * orientation.M23)) + (result.Z * orientation.M33);
 
             result.X = position.X + x;
             result.Y = position.Y + y;
@@ -85,11 +85,11 @@ namespace Jitter.Collision
 
             JVector x = point;
             JVector w, p;
-            float VdotR;
+            double VdotR;
 
             JVector v; JVector.Subtract(ref x, ref arbitraryPoint, out v);
-            float dist = v.LengthSquared();
-            float epsilon = 0.0001f;
+            double dist = v.LengthSquared();
+            double epsilon = 0.0001f;
 
             int maxIter = MaxIterations;
 
@@ -102,7 +102,7 @@ namespace Jitter.Collision
                 SupportMapTransformed(support, ref orientation, ref position, ref v, out p);
                 JVector.Subtract(ref x, ref p, out w);
 
-                float VdotW = JVector.Dot(ref v, ref w);
+                double VdotW = JVector.Dot(ref v, ref w);
 
                 if (VdotW > 0.0f)
                 {
@@ -152,8 +152,8 @@ namespace Jitter.Collision
 
             int maxIter = 15;
 
-            float distSq = v.LengthSquared();
-            float epsilon = 0.00001f;
+            double distSq = v.LengthSquared();
+            double epsilon = 0.00001f;
 
             while ((distSq > epsilon) && (maxIter-- != 0))
             {
@@ -192,7 +192,7 @@ namespace Jitter.Collision
     //        VoronoiSimplexSolver simplexSolver = simplexSolverPool.GetNew();
     //        simplexSolver.Reset();
 
-    //        float lambda = 0.0f;
+    //        double lambda = 0.0f;
 
     //        p1 = p2 = JVector.Zero;
 
@@ -216,14 +216,14 @@ namespace Jitter.Collision
     //        normal = JVector.Zero;
 
 
-    //        float lastLambda = lambda;
+    //        double lastLambda = lambda;
 
     //        int maxIter = MaxIterations;
 
-    //        float distSq = v.LengthSquared();
-    //        float epsilon = 0.00001f;
+    //        double distSq = v.LengthSquared();
+    //        double epsilon = 0.00001f;
 
-    //        float VdotR;
+    //        double VdotR;
 
     //        while ((distSq > epsilon) && (maxIter-- != 0))
     //        {
@@ -233,7 +233,7 @@ namespace Jitter.Collision
     //            SupportMapTransformed(support2, ref orientation2, ref x2, ref v, out supVertexB);
     //            w = supVertexA - supVertexB;
 
-    //            float VdotW = JVector.Dot(ref v, ref w);
+    //            double VdotW = JVector.Dot(ref v, ref w);
 
     //            if (VdotW > 0.0f)
     //            {
@@ -302,15 +302,15 @@ namespace Jitter.Collision
         /// <param name="normal">The normal from the ray collision.</param>
         /// <returns>Returns true if the ray hit the shape, false otherwise.</returns>
         public static bool Raycast(ISupportMappable support, ref JMatrix orientation, ref JMatrix invOrientation,
-            ref JVector position,ref JVector origin,ref JVector direction, out float fraction, out JVector normal)
+            ref JVector position,ref JVector origin,ref JVector direction, out double fraction, out JVector normal)
         {
             VoronoiSimplexSolver simplexSolver = simplexSolverPool.GetNew();
             simplexSolver.Reset();
 
             normal = JVector.Zero;
-            fraction = float.MaxValue;
+            fraction = double.MaxValue;
 
-            float lambda = 0.0f;
+            double lambda = 0.0f;
 
             JVector r = direction;
             JVector x = origin;
@@ -322,17 +322,17 @@ namespace Jitter.Collision
 
             int maxIter = MaxIterations;
 
-            float distSq = v.LengthSquared();
-            float epsilon = 0.000001f;
+            double distSq = v.LengthSquared();
+            double epsilon = 0.000001f;
 
-            float VdotR;
+            double VdotR;
 
             while ((distSq > epsilon) && (maxIter-- != 0))
             {
                 SupportMapTransformed(support, ref orientation, ref position, ref v, out p);
                 JVector.Subtract(ref x, ref p, out w);
 
-                float VdotW = JVector.Dot(ref v, ref w);
+                double VdotW = JVector.Dot(ref v, ref w);
 
                 if (VdotW > 0.0f)
                 {
@@ -429,12 +429,12 @@ namespace Jitter.Collision
             //stores the simplex vertex-usage, using the MASK, 
             // if m_usedVertices & MASK then the related vertex is used
             private UsageBitfield _usedVertices = new UsageBitfield();
-            private float[] _barycentricCoords = new float[4];
+            private double[] _barycentricCoords = new double[4];
             private bool _degenerate;
 
             public JVector ClosestPointOnSimplex { get { return _closestPointOnSimplex; } set { _closestPointOnSimplex = value; } }
             public UsageBitfield UsedVertices { get { return _usedVertices; } set { _usedVertices = value; } }
-            public float[] BarycentricCoords { get { return _barycentricCoords; } set { _barycentricCoords = value; } }
+            public double[] BarycentricCoords { get { return _barycentricCoords; } set { _barycentricCoords = value; } }
             public bool Degenerate { get { return _degenerate; } set { _degenerate = value; } }
 
             public void Reset()
@@ -460,7 +460,7 @@ namespace Jitter.Collision
                 SetBarycentricCoordinates(0f, 0f, 0f, 0f);
             }
 
-            public void SetBarycentricCoordinates(float a, float b, float c, float d)
+            public void SetBarycentricCoordinates(double a, double b, double c, double d)
             {
                 _barycentricCoords[0] = a;
                 _barycentricCoords[1] = b;
@@ -547,12 +547,12 @@ namespace Jitter.Collision
                 return succes;
             }
 
-            public float MaxVertex
+            public double MaxVertex
             {
                 get
                 {
                     int numverts = NumVertices;
-                    float maxV = 0f, curLen2;
+                    double maxV = 0f, curLen2;
                     for (int i = 0; i < numverts; i++)
                     {
                         curLen2 = _simplexVectorW[i].LengthSquared();
@@ -658,11 +658,11 @@ namespace Jitter.Collision
 
                             JVector diff = from * (-1);
                             JVector v = to - from;
-                            float t = JVector.Dot(v, diff);
+                            double t = JVector.Dot(v, diff);
 
                             if (t > 0)
                             {
-                                float dotVV = v.LengthSquared();
+                                double dotVV = v.LengthSquared();
                                 if (t < dotVV)
                                 {
                                     t /= dotVV;
@@ -776,14 +776,14 @@ namespace Jitter.Collision
             {
                 result.UsedVertices.Reset();
 
-                float v, w;
+                double v, w;
 
                 // Check if P in vertex region outside A
                 JVector ab = b - a;
                 JVector ac = c - a;
                 JVector ap = p - a;
-                float d1 = JVector.Dot(ab, ap);
-                float d2 = JVector.Dot(ac, ap);
+                double d1 = JVector.Dot(ab, ap);
+                double d2 = JVector.Dot(ac, ap);
                 if (d1 <= 0f && d2 <= 0f)
                 {
                     result.ClosestPointOnSimplex = a;
@@ -794,8 +794,8 @@ namespace Jitter.Collision
 
                 // Check if P in vertex region outside B
                 JVector bp = p - b;
-                float d3 = JVector.Dot(ab, bp);
-                float d4 = JVector.Dot(ac, bp);
+                double d3 = JVector.Dot(ab, bp);
+                double d4 = JVector.Dot(ac, bp);
                 if (d3 >= 0f && d4 <= d3)
                 {
                     result.ClosestPointOnSimplex = b;
@@ -805,7 +805,7 @@ namespace Jitter.Collision
                     return true; // b; // barycentric coordinates (0,1,0)
                 }
                 // Check if P in edge region of AB, if so return projection of P onto AB
-                float vc = d1 * d4 - d3 * d2;
+                double vc = d1 * d4 - d3 * d2;
                 if (vc <= 0f && d1 >= 0f && d3 <= 0f)
                 {
                     v = d1 / (d1 - d3);
@@ -819,8 +819,8 @@ namespace Jitter.Collision
 
                 // Check if P in vertex region outside C
                 JVector cp = p - c;
-                float d5 = JVector.Dot(ab, cp);
-                float d6 = JVector.Dot(ac, cp);
+                double d5 = JVector.Dot(ab, cp);
+                double d6 = JVector.Dot(ac, cp);
                 if (d6 >= 0f && d5 <= d6)
                 {
                     result.ClosestPointOnSimplex = c;
@@ -830,7 +830,7 @@ namespace Jitter.Collision
                 }
 
                 // Check if P in edge region of AC, if so return projection of P onto AC
-                float vb = d5 * d2 - d1 * d6;
+                double vb = d5 * d2 - d1 * d6;
                 if (vb <= 0f && d2 >= 0f && d6 <= 0f)
                 {
                     w = d2 / (d2 - d6);
@@ -843,7 +843,7 @@ namespace Jitter.Collision
                 }
 
                 // Check if P in edge region of BC, if so return projection of P onto BC
-                float va = d3 * d6 - d5 * d4;
+                double va = d3 * d6 - d5 * d4;
                 if (va <= 0f && (d4 - d3) >= 0f && (d5 - d6) >= 0f)
                 {
                     w = (d4 - d3) / ((d4 - d3) + (d5 - d6));
@@ -857,7 +857,7 @@ namespace Jitter.Collision
                 }
 
                 // P inside face region. Compute Q through its barycentric coordinates (u,v,w)
-                float denom = 1.0f / (va + vb + vc);
+                double denom = 1.0f / (va + vb + vc);
                 v = vb * denom;
                 w = vc * denom;
 
@@ -875,8 +875,8 @@ namespace Jitter.Collision
             {
                 JVector normal = JVector.Cross(b - a, c - a);
 
-                float signp = JVector.Dot(p - a, normal); // [AP AB AC]
-                float signd = JVector.Dot(d - a, normal); // [AD AB AC]
+                double signp = JVector.Dot(p - a, normal); // [AP AB AC]
+                double signd = JVector.Dot(d - a, normal); // [AD AB AC]
 
                 //if (CatchDegenerateTetrahedron)
                     if (signd * signd < (1e-4f * 1e-4f)) return -1;
@@ -912,14 +912,14 @@ namespace Jitter.Collision
                 if (pointOutsideABC == 0 && pointOutsideACD == 0 && pointOutsideADB == 0 && pointOutsideBDC == 0)
                     return false;
 
-                float bestSqDist = float.MaxValue;
+                double bestSqDist = double.MaxValue;
                 // If point outside face abc then compute closest point on abc
                 if (pointOutsideABC != 0)
                 {
                     ClosestPtPointTriangle(p, a, b, c, ref tempResult);
                     JVector q = tempResult.ClosestPointOnSimplex;
 
-                    float sqDist = ((JVector)(q - p)).LengthSquared();
+                    double sqDist = ((JVector)(q - p)).LengthSquared();
                     // Update best closest point if (squared) distance is less than current best
                     if (sqDist < bestSqDist)
                     {
@@ -945,7 +945,7 @@ namespace Jitter.Collision
                     JVector q = tempResult.ClosestPointOnSimplex;
                     //convert result bitmask!
 
-                    float sqDist = ((JVector)(q - p)).LengthSquared();
+                    double sqDist = ((JVector)(q - p)).LengthSquared();
                     if (sqDist < bestSqDist)
                     {
                         bestSqDist = sqDist;
@@ -969,7 +969,7 @@ namespace Jitter.Collision
                     JVector q = tempResult.ClosestPointOnSimplex;
                     //convert result bitmask!
 
-                    float sqDist = ((JVector)(q - p)).LengthSquared();
+                    double sqDist = ((JVector)(q - p)).LengthSquared();
                     if (sqDist < bestSqDist)
                     {
                         bestSqDist = sqDist;
@@ -993,7 +993,7 @@ namespace Jitter.Collision
                     ClosestPtPointTriangle(p, b, d, c, ref tempResult);
                     JVector q = tempResult.ClosestPointOnSimplex;
                     //convert result bitmask!
-                    float sqDist = ((JVector)(q - p)).LengthSquared();
+                    double sqDist = ((JVector)(q - p)).LengthSquared();
                     if (sqDist < bestSqDist)
                     {
                         bestSqDist = sqDist;

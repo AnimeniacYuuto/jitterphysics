@@ -34,18 +34,18 @@ namespace Jitter.Collision.Shapes
     /// </summary>
     public class SphereShape : Shape
     {
-        private float radius = 1.0f;
+        private double radius = 1.0f;
 
         /// <summary>
         /// The radius of the sphere.
         /// </summary>
-        public float Radius { get { return radius; } set { radius = value; UpdateShape(); } }
+        public double Radius { get { return radius; } set { radius = value; UpdateShape(); } }
 
         /// <summary>
         /// Creates a new instance of the SphereShape class.
         /// </summary>
         /// <param name="radius">The radius of the sphere</param>
-        public SphereShape(float radius)
+        public SphereShape(double radius)
         {
             this.radius = radius;
             this.UpdateShape();

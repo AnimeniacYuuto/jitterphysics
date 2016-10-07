@@ -41,7 +41,7 @@ namespace Jitter.Collision
         {
             public int Compare(IBroadphaseEntity body1, IBroadphaseEntity body2)
             {
-                float f = body1.BoundingBox.Min.X - body2.BoundingBox.Min.X;
+                double f = body1.BoundingBox.Min.X - body2.BoundingBox.Min.X;
                 return (f < 0) ? -1 : (f > 0) ? 1 : 0;
             }
         }
@@ -114,7 +114,7 @@ namespace Jitter.Collision
         #region private void AddToActiveSingleThreaded(IBroadphaseEntity body, bool addToList)
         private void AddToActive(IBroadphaseEntity body, bool addToList)
         {
-            float xmin = body.BoundingBox.Min.X;
+            double xmin = body.BoundingBox.Min.X;
             int n = active.Count;
 
             bool thisInactive = body.IsStaticOrInactive;
@@ -158,7 +158,7 @@ namespace Jitter.Collision
         #region private void AddToActiveMultithreaded(IBroadphaseEntity body, bool addToList)
         private void AddToActiveMultithreaded(IBroadphaseEntity body, bool addToList)
         {
-            float xmin = body.BoundingBox.Min.X;
+            double xmin = body.BoundingBox.Min.X;
             int n = active.Count;
 
             bool thisInactive = body.IsStaticOrInactive;
@@ -213,7 +213,7 @@ namespace Jitter.Collision
 
         private int Compare(IBroadphaseEntity body1, IBroadphaseEntity body2)
         {
-            float f = body1.BoundingBox.Min.X - body2.BoundingBox.Min.X;
+            double f = body1.BoundingBox.Min.X - body2.BoundingBox.Min.X;
             return (f < 0) ? -1 : (f > 0) ? 1 : 0;
         }
 
@@ -223,12 +223,12 @@ namespace Jitter.Collision
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
-        #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out float fraction)
-        public override bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, out RigidBody body, out JVector normal, out float fraction)
+        #region public override bool Raycast(JVector rayOrigin, JVector rayDirection, out JVector normal,out double fraction)
+        public override bool Raycast(JVector rayOrigin, JVector rayDirection, RaycastCallback raycast, out RigidBody body, out JVector normal, out double fraction)
         {
-            body = null; normal = JVector.Zero; fraction = float.MaxValue;
+            body = null; normal = JVector.Zero; fraction = double.MaxValue;
 
-            JVector tempNormal; float tempFraction;
+            JVector tempNormal; double tempFraction;
             bool result = false;
 
             // TODO: This can be done better in CollisionSystemPersistenSAP
@@ -278,10 +278,10 @@ namespace Jitter.Collision
         /// against rays (rays are of infinite length). They are checked against segments
         /// which start at rayOrigin and end in rayOrigin + rayDirection.
         /// </summary>
-        #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction)
-        public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out float fraction)
+        #region public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out double fraction)
+        public override bool Raycast(RigidBody body, JVector rayOrigin, JVector rayDirection, out JVector normal, out double fraction)
         {
-            fraction = float.MaxValue; normal = JVector.Zero;
+            fraction = double.MaxValue; normal = JVector.Zero;
 
             if (!body.BoundingBox.RayIntersect(ref rayOrigin, ref rayDirection)) return false;
 
@@ -289,7 +289,7 @@ namespace Jitter.Collision
             {
                 Multishape ms = (body.Shape as Multishape).RequestWorkingClone();
 
-                JVector tempNormal; float tempFraction;
+                JVector tempNormal; double tempFraction;
                 bool multiShapeCollides = false;
 
                 JVector transformedOrigin; JVector.Subtract(ref rayOrigin, ref body.position, out transformedOrigin);

@@ -66,8 +66,8 @@ namespace Jitter.Dynamics.Constraints.SingleBody
     public class FixedAngle : Constraint
     {
 
-        private float biasFactor = 0.05f;
-        private float softness = 0.0f;
+        private double biasFactor = 0.05f;
+        private double softness = 0.0f;
 
         private JMatrix orientation;
         private JVector accumulatedImpulse;
@@ -86,24 +86,24 @@ namespace Jitter.Dynamics.Constraints.SingleBody
         /// <summary>
         /// Defines how big the applied impulses can get.
         /// </summary>
-        public float Softness { get { return softness; } set { softness = value; } }
+        public double Softness { get { return softness; } set { softness = value; } }
 
         /// <summary>
         /// Defines how big the applied impulses can get which correct errors.
         /// </summary>
-        public float BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
+        public double BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
 
         public JMatrix InitialOrientation { get { return orientation; } set { orientation = value; } }
 
         JMatrix effectiveMass;
         JVector bias;
-        float softnessOverDt;
+        double softnessOverDt;
 
         /// <summary>
         /// Called once before iteration starts.
         /// </summary>
         /// <param name="timestep">The 5simulation timestep</param>
-        public override void PrepareForIteration(float timestep)
+        public override void PrepareForIteration(double timestep)
         {
             effectiveMass = body1.invInertiaWorld;
 
@@ -118,14 +118,14 @@ namespace Jitter.Dynamics.Constraints.SingleBody
             JMatrix q = JMatrix.Transpose(orientation) * body1.orientation;
             JVector axis;
 
-            float x = q.M32 - q.M23;
-            float y = q.M13 - q.M31;
-            float z = q.M21 - q.M12;
+            double x = q.M32 - q.M23;
+            double y = q.M13 - q.M31;
+            double z = q.M21 - q.M12;
 
-            float r = JMath.Sqrt(x * x + y * y + z * z);
-            float t = q.M11 + q.M22 + q.M33;
+            double r = JMath.Sqrt(x * x + y * y + z * z);
+            double t = q.M11 + q.M22 + q.M33;
 
-            float angle = (float)Math.Atan2(r, t - 1);
+            double angle = (double)Math.Atan2(r, t - 1);
             axis = new JVector(x, y, z) * angle;
 
             if (r != 0.0f) axis = axis * (1.0f / r);

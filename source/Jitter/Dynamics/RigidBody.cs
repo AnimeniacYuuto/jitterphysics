@@ -61,14 +61,14 @@ namespace Jitter.Dynamics
 
         internal JBBox boundingBox;
 
-        internal float inactiveTime = 0.0f;
+        internal double inactiveTime = 0.0f;
 
         internal bool isActive = true;
         internal bool isStatic = false;
         internal bool affectedByGravity = true;
 
         internal CollisionIsland island;
-        internal float inverseMass;
+        internal double inverseMass;
 
         internal JVector force, torque;
 
@@ -242,7 +242,7 @@ namespace Jitter.Dynamics
                 else if (isActive && !value)
                 {
                     // if active and should be inactive
-                    inactiveTime = float.PositiveInfinity;
+                    inactiveTime = double.PositiveInfinity;
                     this.angularVelocity.MakeZero();
                     this.linearVelocity.MakeZero();
                 }
@@ -358,7 +358,7 @@ namespace Jitter.Dynamics
         /// <param name="mass">The mass/inverse mass of the object.</param>
         /// <param name="setAsInverseValues">Sets the InverseInertia and the InverseMass
         /// to this values.</param>
-        public void SetMassProperties(JMatrix inertia, float mass, bool setAsInverseValues)
+        public void SetMassProperties(JMatrix inertia, double mass, bool setAsInverseValues)
         {
             if (setAsInverseValues)
             {
@@ -519,7 +519,7 @@ namespace Jitter.Dynamics
         /// Setting the mass automatically scales the inertia.
         /// To set the mass indepedently from the mass use SetMassProperties.
         /// </summary>
-        public float Mass
+        public double Mass
         {
             get { return 1.0f / inverseMass; }
             set 
@@ -542,7 +542,7 @@ namespace Jitter.Dynamics
 
         internal JVector sweptDirection = JVector.Zero;
 
-        public void SweptExpandBoundingBox(float timestep)
+        public void SweptExpandBoundingBox(double timestep)
         {
             sweptDirection = linearVelocity * timestep;
 
@@ -623,12 +623,12 @@ namespace Jitter.Dynamics
         public int BroadphaseTag { get; set; }
 
 
-        public virtual void PreStep(float timestep)
+        public virtual void PreStep(double timestep)
         {
             //
         }
 
-        public virtual void PostStep(float timestep)
+        public virtual void PostStep(double timestep)
         {
             //
         }

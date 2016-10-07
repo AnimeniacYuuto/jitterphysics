@@ -34,24 +34,24 @@ namespace Jitter.Collision.Shapes
     /// </summary>
     public class ConeShape : Shape
     {
-        float height,radius;
+        double height,radius;
 
         /// <summary>
         /// The height of the cone.
         /// </summary>
-        public float Height { get { return height; } set { height = value; UpdateShape(); } }
+        public double Height { get { return height; } set { height = value; UpdateShape(); } }
 
         /// <summary>
         /// The radius of the cone base.
         /// </summary>
-        public float Radius { get { return radius; } set { radius = value; UpdateShape(); } }
+        public double Radius { get { return radius; } set { radius = value; UpdateShape(); } }
 
         /// <summary>
         /// Initializes a new instance of the ConeShape class.
         /// </summary>
         /// <param name="height">The height of the cone.</param>
         /// <param name="radius">The radius of the cone base.</param>
-        public ConeShape(float height, float radius)
+        public ConeShape(double height, double radius)
         {
             this.height = height;
             this.radius = radius;
@@ -61,11 +61,11 @@ namespace Jitter.Collision.Shapes
 
         public override void UpdateShape()
         {
-            sina = radius / (float)Math.Sqrt(radius * radius + height * height);
+            sina = radius / (double)Math.Sqrt(radius * radius + height * height);
             base.UpdateShape();
         }
 
-        float sina = 0.0f;
+        double sina = 0.0f;
 
         /// <summary>
         /// 
@@ -95,7 +95,7 @@ namespace Jitter.Collision.Shapes
         /// <param name="result">The result.</param>
         public override void SupportMapping(ref JVector direction, out JVector result)
         {
-            float sigma = (float)Math.Sqrt((float)(direction.X * direction.X + direction.Z * direction.Z));
+            double sigma = (double)Math.Sqrt((double)(direction.X * direction.X + direction.Z * direction.Z));
 
             if (direction.Y > direction.Length() * sina)
             {

@@ -34,7 +34,7 @@ namespace Jitter.Dynamics.Joints
         /// <param name="position">The position in world space where both bodies get connected.</param>
         /// <param name="hingeAxis">The axis if the hinge.</param>
         public LimitedHingeJoint(World world, RigidBody body1, RigidBody body2, JVector position, JVector hingeAxis,
-            float hingeFwdAngle, float hingeBckAngle)
+            double hingeFwdAngle, double hingeBckAngle)
             : base(world)
         {
             // Create the hinge first, two point constraints
@@ -66,7 +66,7 @@ namespace Jitter.Dynamics.Joints
 
             // the length of the "arm" TODO take this as a parameter? what's
             // the effect of changing it?
-            float len = 10.0f * 3;
+            double len = 10.0f * 3;
 
             // Choose a position using that dir. this will be the anchor point
             // for body 0. relative to hinge
@@ -75,12 +75,12 @@ namespace Jitter.Dynamics.Joints
 
             // anchor point for body 2 is chosen to be in the middle of the
             // angle range.  relative to hinge
-            float angleToMiddle = 0.5f * (hingeFwdAngle - hingeBckAngle);
+            double angleToMiddle = 0.5f * (hingeFwdAngle - hingeBckAngle);
             JVector hingeRelAnchorPos1 = JVector.Transform(hingeRelAnchorPos0, JMatrix.CreateFromAxisAngle(hingeAxis, -angleToMiddle / 360.0f * 2.0f * JMath.Pi));
 
             // work out the "string" length
-            float hingeHalfAngle = 0.5f * (hingeFwdAngle + hingeBckAngle);
-            float allowedDistance = len * 2.0f * (float)System.Math.Sin(hingeHalfAngle * 0.5f / 360.0f * 2.0f * JMath.Pi);
+            double hingeHalfAngle = 0.5f * (hingeFwdAngle + hingeBckAngle);
+            double allowedDistance = len * 2.0f * (double)System.Math.Sin(hingeHalfAngle * 0.5f / 360.0f * 2.0f * JMath.Pi);
 
             JVector hingePos = body1.Position;
             JVector relPos0c = hingePos + hingeRelAnchorPos0;

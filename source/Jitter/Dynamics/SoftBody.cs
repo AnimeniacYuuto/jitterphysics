@@ -52,9 +52,9 @@ namespace Jitter.Dynamics
 
             public SpringType SpringType { get; set; }
 
-            private float biasFactor = 0.1f;
-            private float softness = 0.01f;
-            private float distance;
+            private double biasFactor = 0.1f;
+            private double softness = 0.01f;
+            private double distance;
 
             private DistanceBehavior behavior = DistanceBehavior.LimitDistance;
 
@@ -73,12 +73,12 @@ namespace Jitter.Dynamics
                 distance = (body1.position - body2.position).Length();
             }
 
-            public float AppliedImpulse { get { return accumulatedImpulse; } }
+            public double AppliedImpulse { get { return accumulatedImpulse; } }
 
             /// <summary>
             /// 
             /// </summary>
-            public float Distance { get { return distance; } set { distance = value; } }
+            public double Distance { get { return distance; } set { distance = value; } }
 
             /// <summary>
             /// 
@@ -88,34 +88,34 @@ namespace Jitter.Dynamics
             /// <summary>
             /// Defines how big the applied impulses can get.
             /// </summary>
-            public float Softness { get { return softness; } set { softness = value; } }
+            public double Softness { get { return softness; } set { softness = value; } }
 
             /// <summary>
             /// Defines how big the applied impulses can get which correct errors.
             /// </summary>
-            public float BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
+            public double BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
 
-            float effectiveMass = 0.0f;
-            float accumulatedImpulse = 0.0f;
-            float bias;
-            float softnessOverDt;
+            double effectiveMass = 0.0f;
+            double accumulatedImpulse = 0.0f;
+            double bias;
+            double softnessOverDt;
 
             JVector[] jacobian = new JVector[2];
 
             bool skipConstraint = false;
 
-            float myCounter = 0.0f;
+            double myCounter = 0.0f;
 
             /// <summary>
             /// Called once before iteration starts.
             /// </summary>
             /// <param name="timestep">The 5simulation timestep</param>
-            public override void PrepareForIteration(float timestep)
+            public override void PrepareForIteration(double timestep)
             {
                 JVector dp;
                 JVector.Subtract(ref body2.position, ref body1.position, out dp);
 
-                float deltaLength = dp.Length() - distance;
+                double deltaLength = dp.Length() - distance;
 
                 if (behavior == DistanceBehavior.LimitMaximumDistance && deltaLength <= 0.0f)
                 {
@@ -166,22 +166,22 @@ namespace Jitter.Dynamics
             {
                 if (skipConstraint) return;
 
-                float jv = JVector.Dot(ref body1.linearVelocity, ref jacobian[0]);
+                double jv = JVector.Dot(ref body1.linearVelocity, ref jacobian[0]);
                 jv += JVector.Dot(ref body2.linearVelocity, ref jacobian[1]);
 
-                float softnessScalar = accumulatedImpulse * softnessOverDt;
+                double softnessScalar = accumulatedImpulse * softnessOverDt;
 
-                float lambda = -effectiveMass * (jv + bias + softnessScalar);
+                double lambda = -effectiveMass * (jv + bias + softnessScalar);
 
                 if (behavior == DistanceBehavior.LimitMinimumDistance)
                 {
-                    float previousAccumulatedImpulse = accumulatedImpulse;
+                    double previousAccumulatedImpulse = accumulatedImpulse;
                     accumulatedImpulse = JMath.Max(accumulatedImpulse + lambda, 0);
                     lambda = accumulatedImpulse - previousAccumulatedImpulse;
                 }
                 else if (behavior == DistanceBehavior.LimitMaximumDistance)
                 {
-                    float previousAccumulatedImpulse = accumulatedImpulse;
+                    double previousAccumulatedImpulse = accumulatedImpulse;
                     accumulatedImpulse = JMath.Min(accumulatedImpulse + lambda, 0);
                     lambda = accumulatedImpulse - previousAccumulatedImpulse;
                 }
@@ -272,7 +272,7 @@ namespace Jitter.Dynamics
                 boundingBox.Max += new JVector(owner.triangleExpansion);
             }
 
-            public float CalculateArea()
+            public double CalculateArea()
             {
                 return ((owner.points[indices.I1].position - owner.points[indices.I0].position) %
                     (owner.points[indices.I2].position - owner.points[indices.I0].position)).Length();
@@ -281,8 +281,8 @@ namespace Jitter.Dynamics
             public void SupportMapping(ref JVector direction, out JVector result)
             {
 
-                float min = JVector.Dot(ref owner.points[indices.I0].position, ref direction);
-                float dot = JVector.Dot(ref owner.points[indices.I1].position, ref direction);
+                double min = JVector.Dot(ref owner.points[indices.I0].position, ref direction);
+                double dot = JVector.Dot(ref owner.points[indices.I1].position, ref direction);
 
                 JVector minVertex = owner.points[indices.I0].position;
 
@@ -327,19 +327,19 @@ namespace Jitter.Dynamics
         public ReadOnlyCollection<MassPoint> VertexBodies { get; private set; }
         public ReadOnlyCollection<Triangle> Triangles { private set; get; }
 
-        protected float triangleExpansion = 0.1f;
+        protected double triangleExpansion = 0.1f;
 
         private bool selfCollision = false;
 
         public bool SelfCollision { get { return selfCollision; } set { selfCollision = value; } }
 
-        public float TriangleExpansion { get { return triangleExpansion; } 
+        public double TriangleExpansion { get { return triangleExpansion; } 
             set { triangleExpansion = value; } }
 
-        public float VertexExpansion { get { return sphere.Radius; } set { sphere.Radius = value; } }
+        public double VertexExpansion { get { return sphere.Radius; } set { sphere.Radius = value; } }
 
-        private float volume = 1.0f;
-        private float mass = 1.0f;
+        private double volume = 1.0f;
+        private double mass = 1.0f;
 
         internal DynamicTree<Triangle> dynamicTree = new DynamicTree<Triangle>();
         public DynamicTree<Triangle> DynamicTree { get { return dynamicTree; } }
@@ -367,7 +367,7 @@ namespace Jitter.Dynamics
         /// <param name="sizeX"></param>
         /// <param name="sizeY"></param>
         /// <param name="scale"></param>
-        public SoftBody(int sizeX,int sizeY, float scale)
+        public SoftBody(int sizeX,int sizeY, double scale)
         {
             List<TriangleVertexIndices> indices = new List<TriangleVertexIndices>();
             List<JVector> vertices = new List<JVector>();
@@ -456,8 +456,8 @@ namespace Jitter.Dynamics
         }
 
 
-        private float pressure = 0.0f;
-        public float Pressure { get { return pressure; } set { pressure = value; } }
+        private double pressure = 0.0f;
+        public double Pressure { get { return pressure; } set { pressure = value; } }
 
         private struct Edge
         {
@@ -483,11 +483,11 @@ namespace Jitter.Dynamics
         }
 
         #region AddPressureForces
-        private void AddPressureForces(float timeStep)
+        private void AddPressureForces(double timeStep)
         {
             if (pressure == 0.0f || volume == 0.0f) return;
 
-            float invVolume = 1.0f / volume;
+            double invVolume = 1.0f / volume;
 
             foreach (Triangle t in triangles)
             {
@@ -509,7 +509,7 @@ namespace Jitter.Dynamics
         {
             foreach (MassPoint point in points) point.Position += position;
 
-            Update(float.Epsilon);
+            Update(double.Epsilon);
         }
 
         public void AddForce(JVector force)
@@ -560,7 +560,7 @@ namespace Jitter.Dynamics
             if (!selfCollision) return;
 
             JVector point, normal;
-            float penetration;
+            double penetration;
 
             for (int i = 0; i < points.Count; i++)
             {
@@ -634,13 +634,13 @@ namespace Jitter.Dynamics
 
         }
 
-        public void SetSpringValues(float bias, float softness)
+        public void SetSpringValues(double bias, double softness)
         {
             SetSpringValues(SpringType.EdgeSpring | SpringType.ShearSpring | SpringType.BendSpring,
                 bias, softness);
         }
 
-        public void SetSpringValues(SpringType type, float bias, float softness)
+        public void SetSpringValues(SpringType type, double bias, double softness)
         {
             for (int i = 0; i < springs.Count; i++)
             {
@@ -651,7 +651,7 @@ namespace Jitter.Dynamics
             }
         }
 
-        public virtual void Update(float timestep)
+        public virtual void Update(double timestep)
         {
             active = false;
 
@@ -702,7 +702,7 @@ namespace Jitter.Dynamics
             AddPressureForces(timestep);
         }
 
-        public float Mass
+        public double Mass
         {
             get
             {
@@ -717,7 +717,7 @@ namespace Jitter.Dynamics
             }
         }
 
-        public float Volume { get { return volume; } }
+        public double Volume { get { return volume; } }
 
         public JBBox BoundingBox
         {

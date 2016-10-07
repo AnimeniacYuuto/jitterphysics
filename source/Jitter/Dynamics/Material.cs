@@ -10,25 +10,25 @@ namespace Jitter.Dynamics
     public class Material
     {
 
-        internal float kineticFriction = 0.3f;
-        internal float staticFriction = 0.6f;
-        internal float restitution = 0.0f;
+        internal double kineticFriction = 0.3f;
+        internal double staticFriction = 0.6f;
+        internal double restitution = 0.0f;
 
         public Material() { }
 
-        public float Restitution
+        public double Restitution
         {
             get { return restitution; }
             set { restitution = value; }
         }
 
-        public float StaticFriction
+        public double StaticFriction
         {
             get { return staticFriction; }
             set { staticFriction = value; }
         }
 
-        public float KineticFriction
+        public double KineticFriction
         {
             get { return kineticFriction; }
             set { kineticFriction = value; }

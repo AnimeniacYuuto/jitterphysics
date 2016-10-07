@@ -47,7 +47,7 @@ namespace Jitter.Collision
         /// </summary>
         public JBBox AABB;
 
-        public float MinorRandomExtension;
+        public double MinorRandomExtension;
 
         public int Child1;
         public int Child2;
@@ -80,11 +80,11 @@ namespace Jitter.Collision
         private int _nodeCount;
         private DynamicTreeNode<T>[] _nodes;
 
-        private const float SettingsAABBMultiplier = 2.0f;
+        private const double SettingsAABBMultiplier = 2.0f;
 
         // Added by 'noone' to prevent highly symmetric cases to
         // update the whole tree at once.
-        private float settingsRndExtension = 0.1f;
+        private double settingsRndExtension = 0.1f;
 
         private int _root;
 
@@ -99,7 +99,7 @@ namespace Jitter.Collision
         /// <summary>
         /// Constructing the tree initializes the node pool.
         /// </summary>
-        public DynamicTree(float rndExtension)
+        public DynamicTree(double rndExtension)
         {
             settingsRndExtension = rndExtension;
             _root = NullNode;
@@ -129,7 +129,7 @@ namespace Jitter.Collision
         {
             int proxyId = AllocateNode();
 
-            _nodes[proxyId].MinorRandomExtension = (float)rnd.NextDouble() * settingsRndExtension;
+            _nodes[proxyId].MinorRandomExtension = (double)rnd.NextDouble() * settingsRndExtension;
 
             // Fatten the aabb.
             JVector r = new JVector(_nodes[proxyId].MinorRandomExtension);
@@ -186,7 +186,7 @@ namespace Jitter.Collision
 
             // Predict AABB displacement.
             JVector d = SettingsAABBMultiplier * displacement;
-            //JVector randomExpansion = new JVector((float)rnd.Next(0, 10) * 0.1f, (float)rnd.Next(0, 10) * 0.1f, (float)rnd.Next(0, 10) * 0.1f);
+            //JVector randomExpansion = new JVector((double)rnd.Next(0, 10) * 0.1f, (double)rnd.Next(0, 10) * 0.1f, (double)rnd.Next(0, 10) * 0.1f);
 
             //d += randomExpansion;
 
@@ -488,17 +488,17 @@ namespace Jitter.Collision
 
                 _nodes[sibling].LeafCount += 1;
 
-                float siblingArea = _nodes[sibling].AABB.Perimeter;
+                double siblingArea = _nodes[sibling].AABB.Perimeter;
                 JBBox parentAABB = new JBBox();
                 //parentAABB.Combine(ref _nodes[sibling].AABB, ref leafAABB);
                 JBBox.CreateMerged(ref _nodes[sibling].AABB, ref leafAABB, out _nodes[sibling].AABB);
 
-                float parentArea = parentAABB.Perimeter;
-                float cost1 = 2.0f * parentArea;
+                double parentArea = parentAABB.Perimeter;
+                double cost1 = 2.0f * parentArea;
 
-                float inheritanceCost = 2.0f * (parentArea - siblingArea);
+                double inheritanceCost = 2.0f * (parentArea - siblingArea);
 
-                float cost2;
+                double cost2;
                 if (_nodes[child1].IsLeaf())
                 {
                     JBBox aabb = new JBBox();
@@ -512,12 +512,12 @@ namespace Jitter.Collision
                     //aabb.Combine(ref leafAABB, ref _nodes[child1].AABB);
                     JBBox.CreateMerged(ref leafAABB, ref _nodes[child1].AABB, out aabb);
 
-                    float oldArea = _nodes[child1].AABB.Perimeter;
-                    float newArea = aabb.Perimeter;
+                    double oldArea = _nodes[child1].AABB.Perimeter;
+                    double newArea = aabb.Perimeter;
                     cost2 = (newArea - oldArea) + inheritanceCost;
                 }
 
-                float cost3;
+                double cost3;
                 if (_nodes[child2].IsLeaf())
                 {
                     JBBox aabb = new JBBox();
@@ -530,8 +530,8 @@ namespace Jitter.Collision
                     JBBox aabb = new JBBox();
                     //aabb.Combine(ref leafAABB, ref _nodes[child2].AABB);
                     JBBox.CreateMerged(ref leafAABB, ref _nodes[child2].AABB, out aabb);
-                    float oldArea = _nodes[child2].AABB.Perimeter;
-                    float newArea = aabb.Perimeter;
+                    double oldArea = _nodes[child2].AABB.Perimeter;
+                    double newArea = aabb.Perimeter;
                     cost3 = newArea - oldArea + inheritanceCost;
                 }
 

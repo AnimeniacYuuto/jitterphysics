@@ -169,8 +169,8 @@ namespace Jitter.Collision
             triBoxes = new JBBox[tris.Length];
 
             // create an infinite size root box
-            rootNodeBox = new JBBox(new JVector(float.PositiveInfinity, float.PositiveInfinity, float.PositiveInfinity),
-                                           new JVector(float.NegativeInfinity, float.NegativeInfinity, float.NegativeInfinity));
+            rootNodeBox = new JBBox(new JVector(double.PositiveInfinity, double.PositiveInfinity, double.PositiveInfinity),
+                                           new JVector(double.NegativeInfinity, double.NegativeInfinity, double.NegativeInfinity));
 
 
             for (int i = 0; i < tris.Length; i++)
@@ -322,7 +322,7 @@ namespace Jitter.Collision
             JVector.Add(ref result.Min, ref dims, out result.Max);
 
             // expand it just a tiny bit just to be safe!
-            float extra = 0.00001f;
+            double extra = 0.00001f;
 
             JVector temp; JVector.Multiply(ref dims, extra, out temp);
             JVector.Subtract(ref result.Min, ref temp, out result.Min);

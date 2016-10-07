@@ -59,7 +59,7 @@ namespace Jitter.Collision
     public sealed class XenoCollide
     {
 
-        private const float CollideEpsilon = 1e-4f;
+        private const double CollideEpsilon = 1e-4f;
         private const int MaximumIterations = 34;
 
         private static void SupportMapTransformed(ISupportMappable support,
@@ -73,9 +73,9 @@ namespace Jitter.Collision
 
             support.SupportMapping(ref result, out result);
 
-            float x = ((result.X * orientation.M11) + (result.Y * orientation.M21)) + (result.Z * orientation.M31);
-            float y = ((result.X * orientation.M12) + (result.Y * orientation.M22)) + (result.Z * orientation.M32);
-            float z = ((result.X * orientation.M13) + (result.Y * orientation.M23)) + (result.Z * orientation.M33);
+            double x = ((result.X * orientation.M11) + (result.Y * orientation.M21)) + (result.Z * orientation.M31);
+            double y = ((result.X * orientation.M12) + (result.Y * orientation.M22)) + (result.Z * orientation.M32);
+            double z = ((result.X * orientation.M13) + (result.Y * orientation.M23)) + (result.Z * orientation.M33);
 
             result.X = position.X + x;
             result.Y = position.Y + y;
@@ -97,7 +97,7 @@ namespace Jitter.Collision
         /// <returns>Returns true if there is a collision, false otherwise.</returns>
         public static bool Detect(ISupportMappable support1, ISupportMappable support2, ref JMatrix orientation1,
              ref JMatrix orientation2, ref JVector position1, ref JVector position2,
-             out JVector point, out JVector normal, out float penetration)
+             out JVector point, out JVector normal, out double penetration)
         {
             // Used variables
             JVector temp1, temp2;
@@ -173,7 +173,7 @@ namespace Jitter.Collision
             JVector.Subtract(ref v2, ref v0, out temp2);
             JVector.Cross(ref temp1, ref temp2, out normal);
 
-            float dist = JVector.Dot(ref normal, ref v0);
+            double dist = JVector.Dot(ref normal, ref v0);
 
             // If the origin is on the - side of the plane, reverse the direction of the plane
             if (dist > 0.0f)
@@ -251,7 +251,7 @@ namespace Jitter.Collision
                     normal.Normalize();
 
                     // Compute distance from origin to wedge face
-                    float d = JVector.Dot(ref normal, ref v1);
+                    double d = JVector.Dot(ref normal, ref v1);
 
 
                     // If the origin is inside the wedge, we have a hit
@@ -268,7 +268,7 @@ namespace Jitter.Collision
                     JVector.Subtract(ref v42, ref v41, out v4);
 
                     JVector.Subtract(ref v4, ref v3, out temp1);
-                    float delta = JVector.Dot(ref temp1, ref normal);
+                    double delta = JVector.Dot(ref temp1, ref normal);
                     penetration = JVector.Dot(ref v4, ref normal);
 
                     // If the boundary is thin enough or the origin is outside the support plane for the newly discovered vertex, then we can terminate
@@ -278,15 +278,15 @@ namespace Jitter.Collision
                         if (hit)
                         {
                             JVector.Cross(ref v1, ref v2, out temp1);
-                            float b0 = JVector.Dot(ref temp1, ref v3);
+                            double b0 = JVector.Dot(ref temp1, ref v3);
                             JVector.Cross(ref v3, ref v2, out temp1);
-                            float b1 = JVector.Dot(ref temp1, ref v0);
+                            double b1 = JVector.Dot(ref temp1, ref v0);
                             JVector.Cross(ref v0, ref v1, out temp1);
-                            float b2 = JVector.Dot(ref temp1, ref v3);
+                            double b2 = JVector.Dot(ref temp1, ref v3);
                             JVector.Cross(ref v2, ref v1, out temp1);
-                            float b3 = JVector.Dot(ref temp1, ref v0);
+                            double b3 = JVector.Dot(ref temp1, ref v0);
 
-                            float sum = b0 + b1 + b2 + b3;
+                            double sum = b0 + b1 + b2 + b3;
 
                             if (sum <= 0)
                             {
@@ -301,7 +301,7 @@ namespace Jitter.Collision
                                 sum = b1 + b2 + b3;
                             }
 
-                            float inv = 1.0f / sum;
+                            double inv = 1.0f / sum;
 
                             JVector.Multiply(ref v01, b0, out point);
                             JVector.Multiply(ref v11, b1, out temp1);
@@ -330,17 +330,17 @@ namespace Jitter.Collision
 
                     //// Compute the tetrahedron dividing face (v4,v0,v1)
                     //JVector.Cross(ref v4, ref v1, out temp1);
-                    //float d1 = JVector.Dot(ref temp1, ref v0);
+                    //double d1 = JVector.Dot(ref temp1, ref v0);
 
 
                     //// Compute the tetrahedron dividing face (v4,v0,v2)
                     //JVector.Cross(ref v4, ref v2, out temp1);
-                    //float d2 = JVector.Dot(ref temp1, ref v0);
+                    //double d2 = JVector.Dot(ref temp1, ref v0);
 
 
                     // Compute the tetrahedron dividing face (v4,v0,v3)
                     JVector.Cross(ref v4, ref v0, out temp1);
-                    float dot = JVector.Dot(ref temp1, ref v1);
+                    double dot = JVector.Dot(ref temp1, ref v1);
 
                     if (dot >= 0.0f)
                     {

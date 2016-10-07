@@ -192,7 +192,7 @@ namespace Jitter.Collision.Shapes
             {
                 JMatrix currentInertia = Shapes[i].InverseOrientation * Shapes[i].Shape.Inertia * Shapes[i].Orientation;
                 JVector p = Shapes[i].Position * -1.0f;
-                float m = Shapes[i].Shape.Mass;
+                double m = Shapes[i].Shape.Mass;
 
                 currentInertia.M11 += m * (p.Y * p.Y + p.Z * p.Z);
                 currentInertia.M22 += m * (p.X * p.X + p.Z * p.Z);
@@ -326,8 +326,8 @@ namespace Jitter.Collision.Shapes
 
         protected void UpdateInternalBoundingBox()
         {
-            mInternalBBox.Min = new JVector(float.MaxValue);
-            mInternalBBox.Max = new JVector(float.MinValue);
+            mInternalBBox.Min = new JVector(double.MaxValue);
+            mInternalBBox.Max = new JVector(double.MinValue);
 
             for (int i = 0; i < shapes.Length; i++)
             {

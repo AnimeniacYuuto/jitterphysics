@@ -34,24 +34,24 @@ namespace Jitter.Collision.Shapes
     /// </summary>
     public class CylinderShape : Shape
     {
-        private float height, radius;
+        private double height, radius;
 
         /// <summary>
         /// Sets the height of the cylinder.
         /// </summary>
-        public float Height { get { return height; } set { height = value; UpdateShape(); } }
+        public double Height { get { return height; } set { height = value; UpdateShape(); } }
 
         /// <summary>
         /// Sets the radius of the cylinder.
         /// </summary>
-        public float Radius { get { return radius; } set { radius = value; UpdateShape(); } }
+        public double Radius { get { return radius; } set { radius = value; UpdateShape(); } }
 
         /// <summary>
         /// Initializes a new instance of the CylinderShape class.
         /// </summary>
         /// <param name="height">The height of the cylinder.</param>
         /// <param name="radius">The radius of the cylinder.</param>
-        public CylinderShape(float height, float radius)
+        public CylinderShape(double height, double radius)
         {
             this.height = height;
             this.radius = radius;
@@ -78,18 +78,18 @@ namespace Jitter.Collision.Shapes
         /// <param name="result">The result.</param>
         public override void SupportMapping(ref JVector direction, out JVector result)
         {
-            float sigma = (float)Math.Sqrt((float)(direction.X * direction.X + direction.Z * direction.Z));
+            double sigma = (double)Math.Sqrt((double)(direction.X * direction.X + direction.Z * direction.Z));
 
             if (sigma > 0.0f)
             {
                 result.X = direction.X / sigma * radius;
-                result.Y = (float)Math.Sign(direction.Y) * height * 0.5f;
+                result.Y = (double)Math.Sign(direction.Y) * height * 0.5f;
                 result.Z = direction.Z / sigma * radius;
             }
             else
             {
                 result.X = 0.0f;
-                result.Y = (float)Math.Sign(direction.Y) * height * 0.5f;
+                result.Y = (double)Math.Sign(direction.Y) * height * 0.5f;
                 result.Z = 0.0f;
             }
         }

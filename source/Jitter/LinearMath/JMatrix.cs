@@ -39,39 +39,39 @@ namespace Jitter.LinearMath
         /// <summary>
         /// M11
         /// </summary>
-        public float M11; // 1st row vector
+        public double M11; // 1st row vector
         /// <summary>
         /// M12
         /// </summary>
-        public float M12;
+        public double M12;
         /// <summary>
         /// M13
         /// </summary>
-        public float M13;
+        public double M13;
         /// <summary>
         /// M21
         /// </summary>
-        public float M21; // 2nd row vector
+        public double M21; // 2nd row vector
         /// <summary>
         /// M22
         /// </summary>
-        public float M22;
+        public double M22;
         /// <summary>
         /// M23
         /// </summary>
-        public float M23;
+        public double M23;
         /// <summary>
         /// M31
         /// </summary>
-        public float M31; // 3rd row vector
+        public double M31; // 3rd row vector
         /// <summary>
         /// M32
         /// </summary>
-        public float M32;
+        public double M32;
         /// <summary>
         /// M33
         /// </summary>
-        public float M33;
+        public double M33;
 
         internal static JMatrix InternalIdentity;
 
@@ -93,7 +93,7 @@ namespace Jitter.LinearMath
             InternalIdentity = Identity;
         }
 
-        public static JMatrix CreateFromYawPitchRoll(float yaw, float pitch, float roll)
+        public static JMatrix CreateFromYawPitchRoll(double yaw, double pitch, double roll)
         {
             JMatrix matrix;
             JQuaternion quaternion;
@@ -102,11 +102,11 @@ namespace Jitter.LinearMath
             return matrix;
         }
 
-        public static JMatrix CreateRotationX(float radians)
+        public static JMatrix CreateRotationX(double radians)
         {
             JMatrix matrix;
-            float num2 = (float)Math.Cos((double)radians);
-            float num = (float)Math.Sin((double)radians);
+            double num2 = (double)Math.Cos((double)radians);
+            double num = (double)Math.Sin((double)radians);
             matrix.M11 = 1f;
             matrix.M12 = 0f;
             matrix.M13 = 0f;
@@ -119,10 +119,10 @@ namespace Jitter.LinearMath
             return matrix;
         }
 
-        public static void CreateRotationX(float radians, out JMatrix result)
+        public static void CreateRotationX(double radians, out JMatrix result)
         {
-            float num2 = (float)Math.Cos((double)radians);
-            float num = (float)Math.Sin((double)radians);
+            double num2 = (double)Math.Cos((double)radians);
+            double num = (double)Math.Sin((double)radians);
             result.M11 = 1f;
             result.M12 = 0f;
             result.M13 = 0f;
@@ -134,11 +134,11 @@ namespace Jitter.LinearMath
             result.M33 = num2;
         }
 
-        public static JMatrix CreateRotationY(float radians)
+        public static JMatrix CreateRotationY(double radians)
         {
             JMatrix matrix;
-            float num2 = (float)Math.Cos((double)radians);
-            float num = (float)Math.Sin((double)radians);
+            double num2 = (double)Math.Cos((double)radians);
+            double num = (double)Math.Sin((double)radians);
             matrix.M11 = num2;
             matrix.M12 = 0f;
             matrix.M13 = -num;
@@ -151,10 +151,10 @@ namespace Jitter.LinearMath
             return matrix;
         }
 
-        public static void CreateRotationY(float radians, out JMatrix result)
+        public static void CreateRotationY(double radians, out JMatrix result)
         {
-            float num2 = (float)Math.Cos((double)radians);
-            float num = (float)Math.Sin((double)radians);
+            double num2 = (double)Math.Cos((double)radians);
+            double num = (double)Math.Sin((double)radians);
             result.M11 = num2;
             result.M12 = 0f;
             result.M13 = -num;
@@ -166,11 +166,11 @@ namespace Jitter.LinearMath
             result.M33 = num2;
         }
 
-        public static JMatrix CreateRotationZ(float radians)
+        public static JMatrix CreateRotationZ(double radians)
         {
             JMatrix matrix;
-            float num2 = (float)Math.Cos((double)radians);
-            float num = (float)Math.Sin((double)radians);
+            double num2 = (double)Math.Cos((double)radians);
+            double num = (double)Math.Sin((double)radians);
             matrix.M11 = num2;
             matrix.M12 = num;
             matrix.M13 = 0f;
@@ -184,10 +184,10 @@ namespace Jitter.LinearMath
         }
 
 
-        public static void CreateRotationZ(float radians, out JMatrix result)
+        public static void CreateRotationZ(double radians, out JMatrix result)
         {
-            float num2 = (float)Math.Cos((double)radians);
-            float num = (float)Math.Sin((double)radians);
+            double num2 = (double)Math.Cos((double)radians);
+            double num = (double)Math.Sin((double)radians);
             result.M11 = num2;
             result.M12 = num;
             result.M13 = 0f;
@@ -212,8 +212,8 @@ namespace Jitter.LinearMath
         /// <param name="m31">m31</param>
         /// <param name="m32">m32</param>
         /// <param name="m33">m33</param>
-        #region public JMatrix(float m11, float m12, float m13, float m21, float m22, float m23,float m31, float m32, float m33)
-        public JMatrix(float m11, float m12, float m13, float m21, float m22, float m23,float m31, float m32, float m33)
+        #region public JMatrix(double m11, double m12, double m13, double m21, double m22, double m23,double m31, double m32, double m33)
+        public JMatrix(double m11, double m12, double m13, double m21, double m22, double m23,double m31, double m32, double m33)
         {
             this.M11 = m11;
             this.M12 = m12;
@@ -231,8 +231,8 @@ namespace Jitter.LinearMath
         /// Gets the determinant of the matrix.
         /// </summary>
         /// <returns>The determinant of the matrix.</returns>
-        #region public float Determinant()
-        //public float Determinant()
+        #region public double Determinant()
+        //public double Determinant()
         //{
         //    return M11 * M22 * M33 -M11 * M23 * M32 -M12 * M21 * M33 +M12 * M23 * M31 + M13 * M21 * M32 - M13 * M22 * M31;
         //}
@@ -260,15 +260,15 @@ namespace Jitter.LinearMath
         /// <param name="result">The product of both matrices.</param>
         public static void Multiply(ref JMatrix matrix1, ref JMatrix matrix2, out JMatrix result)
         {
-            float num0 = ((matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21)) + (matrix1.M13 * matrix2.M31);
-            float num1 = ((matrix1.M11 * matrix2.M12) + (matrix1.M12 * matrix2.M22)) + (matrix1.M13 * matrix2.M32);
-            float num2 = ((matrix1.M11 * matrix2.M13) + (matrix1.M12 * matrix2.M23)) + (matrix1.M13 * matrix2.M33);
-            float num3 = ((matrix1.M21 * matrix2.M11) + (matrix1.M22 * matrix2.M21)) + (matrix1.M23 * matrix2.M31);
-            float num4 = ((matrix1.M21 * matrix2.M12) + (matrix1.M22 * matrix2.M22)) + (matrix1.M23 * matrix2.M32);
-            float num5 = ((matrix1.M21 * matrix2.M13) + (matrix1.M22 * matrix2.M23)) + (matrix1.M23 * matrix2.M33);
-            float num6 = ((matrix1.M31 * matrix2.M11) + (matrix1.M32 * matrix2.M21)) + (matrix1.M33 * matrix2.M31);
-            float num7 = ((matrix1.M31 * matrix2.M12) + (matrix1.M32 * matrix2.M22)) + (matrix1.M33 * matrix2.M32);
-            float num8 = ((matrix1.M31 * matrix2.M13) + (matrix1.M32 * matrix2.M23)) + (matrix1.M33 * matrix2.M33);
+            double num0 = ((matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21)) + (matrix1.M13 * matrix2.M31);
+            double num1 = ((matrix1.M11 * matrix2.M12) + (matrix1.M12 * matrix2.M22)) + (matrix1.M13 * matrix2.M32);
+            double num2 = ((matrix1.M11 * matrix2.M13) + (matrix1.M12 * matrix2.M23)) + (matrix1.M13 * matrix2.M33);
+            double num3 = ((matrix1.M21 * matrix2.M11) + (matrix1.M22 * matrix2.M21)) + (matrix1.M23 * matrix2.M31);
+            double num4 = ((matrix1.M21 * matrix2.M12) + (matrix1.M22 * matrix2.M22)) + (matrix1.M23 * matrix2.M32);
+            double num5 = ((matrix1.M21 * matrix2.M13) + (matrix1.M22 * matrix2.M23)) + (matrix1.M23 * matrix2.M33);
+            double num6 = ((matrix1.M31 * matrix2.M11) + (matrix1.M32 * matrix2.M21)) + (matrix1.M33 * matrix2.M31);
+            double num7 = ((matrix1.M31 * matrix2.M12) + (matrix1.M32 * matrix2.M22)) + (matrix1.M33 * matrix2.M32);
+            double num8 = ((matrix1.M31 * matrix2.M13) + (matrix1.M32 * matrix2.M23)) + (matrix1.M33 * matrix2.M33);
 
             result.M11 = num0;
             result.M12 = num1;
@@ -329,7 +329,7 @@ namespace Jitter.LinearMath
             return result;
         }
 
-        public float Determinant()
+        public double Determinant()
         {
             return M11 * M22 * M33 + M12 * M23 * M31 + M13 * M21 * M32 -
                    M31 * M22 * M13 - M32 * M23 * M11 - M33 * M21 * M12;
@@ -337,18 +337,18 @@ namespace Jitter.LinearMath
 
         public static void Invert(ref JMatrix matrix, out JMatrix result)
         {
-            float determinantInverse = 1 / matrix.Determinant();
-            float m11 = (matrix.M22 * matrix.M33 - matrix.M23 * matrix.M32) * determinantInverse;
-            float m12 = (matrix.M13 * matrix.M32 - matrix.M33 * matrix.M12) * determinantInverse;
-            float m13 = (matrix.M12 * matrix.M23 - matrix.M22 * matrix.M13) * determinantInverse;
+            double determinantInverse = 1 / matrix.Determinant();
+            double m11 = (matrix.M22 * matrix.M33 - matrix.M23 * matrix.M32) * determinantInverse;
+            double m12 = (matrix.M13 * matrix.M32 - matrix.M33 * matrix.M12) * determinantInverse;
+            double m13 = (matrix.M12 * matrix.M23 - matrix.M22 * matrix.M13) * determinantInverse;
 
-            float m21 = (matrix.M23 * matrix.M31 - matrix.M21 * matrix.M33) * determinantInverse;
-            float m22 = (matrix.M11 * matrix.M33 - matrix.M13 * matrix.M31) * determinantInverse;
-            float m23 = (matrix.M13 * matrix.M21 - matrix.M11 * matrix.M23) * determinantInverse;
+            double m21 = (matrix.M23 * matrix.M31 - matrix.M21 * matrix.M33) * determinantInverse;
+            double m22 = (matrix.M11 * matrix.M33 - matrix.M13 * matrix.M31) * determinantInverse;
+            double m23 = (matrix.M13 * matrix.M21 - matrix.M11 * matrix.M23) * determinantInverse;
 
-            float m31 = (matrix.M21 * matrix.M32 - matrix.M22 * matrix.M31) * determinantInverse;
-            float m32 = (matrix.M12 * matrix.M31 - matrix.M11 * matrix.M32) * determinantInverse;
-            float m33 = (matrix.M11 * matrix.M22 - matrix.M12 * matrix.M21) * determinantInverse;
+            double m31 = (matrix.M21 * matrix.M32 - matrix.M22 * matrix.M31) * determinantInverse;
+            double m32 = (matrix.M12 * matrix.M31 - matrix.M11 * matrix.M32) * determinantInverse;
+            double m33 = (matrix.M11 * matrix.M22 - matrix.M12 * matrix.M21) * determinantInverse;
 
             result.M11 = m11;
             result.M12 = m12;
@@ -370,24 +370,24 @@ namespace Jitter.LinearMath
         /// <param name="result">The inverted JMatrix.</param>
         public static void Inverse(ref JMatrix matrix, out JMatrix result)
         {
-            float det = matrix.M11 * matrix.M22 * matrix.M33 -
+            double det = matrix.M11 * matrix.M22 * matrix.M33 -
                 matrix.M11 * matrix.M23 * matrix.M32 -
                 matrix.M12 * matrix.M21 * matrix.M33 +
                 matrix.M12 * matrix.M23 * matrix.M31 +
                 matrix.M13 * matrix.M21 * matrix.M32 -
                 matrix.M13 * matrix.M22 * matrix.M31;
 
-            float num11 = matrix.M22 * matrix.M33 - matrix.M23 * matrix.M32;
-            float num12 = matrix.M13 * matrix.M32 - matrix.M12 * matrix.M33;
-            float num13 = matrix.M12 * matrix.M23 - matrix.M22 * matrix.M13;
+            double num11 = matrix.M22 * matrix.M33 - matrix.M23 * matrix.M32;
+            double num12 = matrix.M13 * matrix.M32 - matrix.M12 * matrix.M33;
+            double num13 = matrix.M12 * matrix.M23 - matrix.M22 * matrix.M13;
 
-            float num21 = matrix.M23 * matrix.M31 - matrix.M33 * matrix.M21;
-            float num22 = matrix.M11 * matrix.M33 - matrix.M31 * matrix.M13;
-            float num23 = matrix.M13 * matrix.M21 - matrix.M23 * matrix.M11;
+            double num21 = matrix.M23 * matrix.M31 - matrix.M33 * matrix.M21;
+            double num22 = matrix.M11 * matrix.M33 - matrix.M31 * matrix.M13;
+            double num23 = matrix.M13 * matrix.M21 - matrix.M23 * matrix.M11;
 
-            float num31 = matrix.M21 * matrix.M32 - matrix.M31 * matrix.M22;
-            float num32 = matrix.M12 * matrix.M31 - matrix.M32 * matrix.M11;
-            float num33 = matrix.M11 * matrix.M22 - matrix.M21 * matrix.M12;
+            double num31 = matrix.M21 * matrix.M32 - matrix.M31 * matrix.M22;
+            double num32 = matrix.M12 * matrix.M31 - matrix.M32 * matrix.M11;
+            double num33 = matrix.M11 * matrix.M22 - matrix.M21 * matrix.M12;
 
             result.M11 = num11 / det;
             result.M12 = num12 / det;
@@ -407,8 +407,8 @@ namespace Jitter.LinearMath
         /// <param name="matrix1">The matrix.</param>
         /// <param name="scaleFactor">The scale factor.</param>
         /// <returns>A JMatrix multiplied by the scale factor.</returns>
-        #region public static JMatrix Multiply(JMatrix matrix1, float scaleFactor)
-        public static JMatrix Multiply(JMatrix matrix1, float scaleFactor)
+        #region public static JMatrix Multiply(JMatrix matrix1, double scaleFactor)
+        public static JMatrix Multiply(JMatrix matrix1, double scaleFactor)
         {
             JMatrix result;
             JMatrix.Multiply(ref matrix1, scaleFactor, out result);
@@ -421,9 +421,9 @@ namespace Jitter.LinearMath
         /// <param name="matrix1">The matrix.</param>
         /// <param name="scaleFactor">The scale factor.</param>
         /// <param name="result">A JMatrix multiplied by the scale factor.</param>
-        public static void Multiply(ref JMatrix matrix1, float scaleFactor, out JMatrix result)
+        public static void Multiply(ref JMatrix matrix1, double scaleFactor, out JMatrix result)
         {
-            float num = scaleFactor;
+            double num = scaleFactor;
             result.M11 = matrix1.M11 * num;
             result.M12 = matrix1.M12 * num;
             result.M13 = matrix1.M13 * num;
@@ -457,15 +457,15 @@ namespace Jitter.LinearMath
         /// <param name="result">JMatrix representing an orientation.</param>
         public static void CreateFromQuaternion(ref JQuaternion quaternion, out JMatrix result)
         {
-            float num9 = quaternion.X * quaternion.X;
-            float num8 = quaternion.Y * quaternion.Y;
-            float num7 = quaternion.Z * quaternion.Z;
-            float num6 = quaternion.X * quaternion.Y;
-            float num5 = quaternion.Z * quaternion.W;
-            float num4 = quaternion.Z * quaternion.X;
-            float num3 = quaternion.Y * quaternion.W;
-            float num2 = quaternion.Y * quaternion.Z;
-            float num = quaternion.X * quaternion.W;
+            double num9 = quaternion.X * quaternion.X;
+            double num8 = quaternion.Y * quaternion.Y;
+            double num7 = quaternion.Z * quaternion.Z;
+            double num6 = quaternion.X * quaternion.Y;
+            double num5 = quaternion.Z * quaternion.W;
+            double num4 = quaternion.Z * quaternion.X;
+            double num3 = quaternion.Y * quaternion.W;
+            double num2 = quaternion.Y * quaternion.Z;
+            double num = quaternion.X * quaternion.W;
             result.M11 = 1f - (2f * (num8 + num7));
             result.M12 = 2f * (num6 + num5);
             result.M13 = 2f * (num4 - num3);
@@ -525,7 +525,7 @@ namespace Jitter.LinearMath
         #endregion
 
 
-        public float Trace()
+        public double Trace()
         {
             return this.M11 + this.M22 + this.M33;
         }
@@ -566,20 +566,20 @@ namespace Jitter.LinearMath
         /// <param name="axis">The axis.</param>
         /// <param name="angle">The angle.</param>
         /// <param name="result">The resulting rotation matrix</param>
-        #region public static void CreateFromAxisAngle(ref JVector axis, float angle, out JMatrix result)
-        public static void CreateFromAxisAngle(ref JVector axis, float angle, out JMatrix result)
+        #region public static void CreateFromAxisAngle(ref JVector axis, double angle, out JMatrix result)
+        public static void CreateFromAxisAngle(ref JVector axis, double angle, out JMatrix result)
         {
-            float x = axis.X;
-            float y = axis.Y;
-            float z = axis.Z;
-            float num2 = (float)Math.Sin((double)angle);
-            float num = (float)Math.Cos((double)angle);
-            float num11 = x * x;
-            float num10 = y * y;
-            float num9 = z * z;
-            float num8 = x * y;
-            float num7 = x * z;
-            float num6 = y * z;
+            double x = axis.X;
+            double y = axis.Y;
+            double z = axis.Z;
+            double num2 = (double)Math.Sin((double)angle);
+            double num = (double)Math.Cos((double)angle);
+            double num11 = x * x;
+            double num10 = y * y;
+            double num9 = z * z;
+            double num8 = x * y;
+            double num7 = x * z;
+            double num6 = y * z;
             result.M11 = num11 + (num * (1f - num11));
             result.M12 = (num8 - (num * num8)) + (num2 * z);
             result.M13 = (num7 - (num * num7)) - (num2 * y);
@@ -597,7 +597,7 @@ namespace Jitter.LinearMath
         /// <param name="axis">The axis.</param>
         /// <param name="angle">The angle.</param>
         /// <returns>The resulting rotation matrix</returns>
-        public static JMatrix CreateFromAxisAngle(JVector axis, float angle)
+        public static JMatrix CreateFromAxisAngle(JVector axis, double angle)
         {
             JMatrix result; CreateFromAxisAngle(ref axis, angle, out result);
             return result;

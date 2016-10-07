@@ -76,10 +76,10 @@ namespace Jitter.LinearMath
 
         static JBBox()
         {
-            LargeBox.Min = new JVector(float.MinValue);
-            LargeBox.Max = new JVector(float.MaxValue);
-            SmallBox.Min = new JVector(float.MaxValue);
-            SmallBox.Max = new JVector(float.MinValue);
+            LargeBox.Min = new JVector(double.MinValue);
+            LargeBox.Max = new JVector(double.MaxValue);
+            SmallBox.Min = new JVector(double.MaxValue);
+            SmallBox.Max = new JVector(double.MinValue);
         }
 
         /// <summary>
@@ -142,15 +142,15 @@ namespace Jitter.LinearMath
         /// <returns>The ContainmentType of the point.</returns>
         #region public Ray/Segment Intersection
 
-        private bool Intersect1D(float start, float dir, float min, float max,
-            ref float enter,ref float exit)
+        private bool Intersect1D(double start, double dir, double min, double max,
+            ref double enter,ref double exit)
         {
             if (dir * dir < JMath.Epsilon * JMath.Epsilon) return (start >= min && start <= max);
 
-            float t0 = (min - start) / dir;
-            float t1 = (max - start) / dir;
+            double t0 = (min - start) / dir;
+            double t1 = (max - start) / dir;
 
-            if (t0 > t1) { float tmp = t0; t0 = t1; t1 = tmp; }
+            if (t0 > t1) { double tmp = t0; t0 = t1; t1 = tmp; }
 
             if (t0 > exit || t1 < enter) return false;
 
@@ -162,7 +162,7 @@ namespace Jitter.LinearMath
 
         public bool SegmentIntersect(ref JVector origin,ref JVector direction)
         {
-            float enter = 0.0f, exit = 1.0f;
+            double enter = 0.0f, exit = 1.0f;
 
             if (!Intersect1D(origin.X, direction.X, Min.X, Max.X,ref enter,ref exit))
                 return false;
@@ -178,7 +178,7 @@ namespace Jitter.LinearMath
 
         public bool RayIntersect(ref JVector origin, ref JVector direction)
         {
-            float enter = 0.0f, exit = float.MaxValue;
+            double enter = 0.0f, exit = double.MaxValue;
 
             if (!Intersect1D(origin.X, direction.X, Min.X, Max.X, ref enter, ref exit))
                 return false;
@@ -269,8 +269,8 @@ namespace Jitter.LinearMath
 
         public static JBBox CreateFromPoints(JVector[] points)
         {
-            JVector vector3 = new JVector(float.MaxValue);
-            JVector vector2 = new JVector(float.MinValue);
+            JVector vector3 = new JVector(double.MaxValue);
+            JVector vector2 = new JVector(double.MinValue);
 
             for (int i = 0; i < points.Length; i++)
             {
@@ -349,7 +349,7 @@ namespace Jitter.LinearMath
 
         public JVector Center { get { return (Min + Max)* (1.0f /2.0f); } }
 
-        internal float Perimeter
+        internal double Perimeter
         {
             get
             {

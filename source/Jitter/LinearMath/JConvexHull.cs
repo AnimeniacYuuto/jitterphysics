@@ -62,16 +62,16 @@ namespace Jitter.LinearMath
             for (int thetaIndex = 0; thetaIndex < steps; thetaIndex++)
             {
                 // [0,PI]
-                float theta = JMath.Pi / (steps - 1) * thetaIndex;
-                float sinTheta = (float)Math.Sin(theta);
-                float cosTheta = (float)Math.Cos(theta);
+                double theta = JMath.Pi / (steps - 1) * thetaIndex;
+                double sinTheta = (double)Math.Sin(theta);
+                double cosTheta = (double)Math.Cos(theta);
 
                 for (int phiIndex = 0; phiIndex < steps; phiIndex++)
                 {
                     // [-PI,PI]
-                    float phi = (2.0f * JMath.Pi) / (steps - 0) * phiIndex - JMath.Pi;
-                    float sinPhi = (float)Math.Sin(phi);
-                    float cosPhi = (float)Math.Cos(phi);
+                    double phi = (2.0f * JMath.Pi) / (steps - 0) * phiIndex - JMath.Pi;
+                    double sinPhi = (double)Math.Sin(phi);
+                    double cosPhi = (double)Math.Cos(phi);
 
                     JVector dir = new JVector(sinTheta * cosPhi, cosTheta, sinTheta * sinPhi);
 
@@ -97,9 +97,9 @@ namespace Jitter.LinearMath
         private static int FindExtremePoint(List<JVector> points,ref JVector dir)
         {
             int index = 0;
-            float current = float.MinValue;
+            double current = double.MinValue;
 
-            JVector point; float value;
+            JVector point; double value;
 
             for (int i = 1; i < points.Count; i++)
             {

@@ -34,8 +34,8 @@ namespace Jitter.Collision.Shapes
     /// </summary>
     public class TerrainShape : Multishape
     {
-        private float[,] heights;
-        private float scaleX, scaleZ;
+        private double[,] heights;
+        private double scaleX, scaleZ;
         private int heightsLength0, heightsLength1;
 
         private int minX, maxX;
@@ -44,13 +44,13 @@ namespace Jitter.Collision.Shapes
 
         private JBBox boundings;
 
-        private float sphericalExpansion = 0.05f;
+        private double sphericalExpansion = 0.05f;
 
         /// <summary>
         /// Expands the triangles by the specified amount.
         /// This stabilizes collision detection for flat shapes.
         /// </summary>
-        public float SphericalExpansion
+        public double SphericalExpansion
         {
             get { return sphericalExpansion; }
             set { sphericalExpansion = value; }
@@ -62,7 +62,7 @@ namespace Jitter.Collision.Shapes
         /// <param name="heights">An array containing the heights of the terrain surface.</param>
         /// <param name="scaleX">The x-scale factor. (The x-space between neighbour heights)</param>
         /// <param name="scaleZ">The y-scale factor. (The y-space between neighbour heights)</param>
-        public TerrainShape(float[,] heights, float scaleX, float scaleZ)
+        public TerrainShape(double[,] heights, double scaleX, double scaleZ)
         {
             heightsLength0 = heights.GetLength(0);
             heightsLength1 = heights.GetLength(1);
@@ -183,28 +183,28 @@ namespace Jitter.Collision.Shapes
             if (box.Min.X < boundings.Min.X) minX = 0;
             else
             {
-                minX = (int)Math.Floor((float)((box.Min.X - sphericalExpansion) / scaleX));
+                minX = (int)Math.Floor((double)((box.Min.X - sphericalExpansion) / scaleX));
                 minX = Math.Max(minX, 0);
             }
 
             if (box.Max.X > boundings.Max.X) maxX = heightsLength0 - 1;
             else
             {
-                maxX = (int)Math.Ceiling((float)((box.Max.X + sphericalExpansion) / scaleX));
+                maxX = (int)Math.Ceiling((double)((box.Max.X + sphericalExpansion) / scaleX));
                 maxX = Math.Min(maxX, heightsLength0 - 1);
             }
 
             if (box.Min.Z < boundings.Min.Z) minZ = 0;
             else
             {
-                minZ = (int)Math.Floor((float)((box.Min.Z - sphericalExpansion) / scaleZ));
+                minZ = (int)Math.Floor((double)((box.Min.Z - sphericalExpansion) / scaleZ));
                 minZ = Math.Max(minZ, 0);
             }
 
             if (box.Max.Z > boundings.Max.Z) maxZ = heightsLength1 - 1;
             else
             {
-                maxZ = (int)Math.Ceiling((float)((box.Max.Z + sphericalExpansion) / scaleZ));
+                maxZ = (int)Math.Ceiling((double)((box.Max.Z + sphericalExpansion) / scaleZ));
                 maxZ = Math.Min(maxZ, heightsLength1 - 1);
             }
 
@@ -277,8 +277,8 @@ namespace Jitter.Collision.Shapes
             JVector.Multiply(ref expandVector, sphericalExpansion, out expandVector);
 
             int minIndex = 0;
-            float min = JVector.Dot(ref points[0], ref direction);
-            float dot = JVector.Dot(ref points[1], ref direction);
+            double min = JVector.Dot(ref points[0], ref direction);
+            double dot = JVector.Dot(ref points[1], ref direction);
             if (dot > min)
             {
                 min = dot;

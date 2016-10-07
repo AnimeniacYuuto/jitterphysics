@@ -34,8 +34,8 @@ namespace Jitter.Dynamics.Constraints
         private JVector localAnchor1, localAnchor2;
         private JVector r1, r2;
 
-        private float biasFactor = 0.05f;
-        private float softness = 0.01f;
+        private double biasFactor = 0.05f;
+        private double softness = 0.01f;
 
         /// <summary>
         /// Initializes a new instance of the DistanceConstraint class.
@@ -56,22 +56,22 @@ namespace Jitter.Dynamics.Constraints
             JVector.Transform(ref localAnchor2, ref body2.invOrientation, out localAnchor2);
         }
 
-        public float AppliedImpulse { get { return accumulatedImpulse; } }
+        public double AppliedImpulse { get { return accumulatedImpulse; } }
 
         /// <summary>
         /// Defines how big the applied impulses can get.
         /// </summary>
-        public float Softness { get { return softness; } set { softness = value; } }
+        public double Softness { get { return softness; } set { softness = value; } }
 
         /// <summary>
         /// Defines how big the applied impulses can get which correct errors.
         /// </summary>
-        public float BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
+        public double BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
 
-        float effectiveMass = 0.0f;
-        float accumulatedImpulse = 0.0f;
-        float bias;
-        float softnessOverDt;
+        double effectiveMass = 0.0f;
+        double accumulatedImpulse = 0.0f;
+        double bias;
+        double softnessOverDt;
 
         JVector[] jacobian = new JVector[4];
 
@@ -79,7 +79,7 @@ namespace Jitter.Dynamics.Constraints
         /// Called once before iteration starts.
         /// </summary>
         /// <param name="timestep">The 5simulation timestep</param>
-        public override void PrepareForIteration(float timestep)
+        public override void PrepareForIteration(double timestep)
         {
             JVector.Transform(ref localAnchor1, ref body1.orientation, out r1);
             JVector.Transform(ref localAnchor2, ref body2.orientation, out r2);
@@ -90,7 +90,7 @@ namespace Jitter.Dynamics.Constraints
 
             JVector.Subtract(ref p2, ref p1, out dp);
 
-            float deltaLength = dp.Length();
+            double deltaLength = dp.Length();
 
             JVector n = p2 - p1;
             if (n.LengthSquared() != 0.0f) n.Normalize();
@@ -131,15 +131,15 @@ namespace Jitter.Dynamics.Constraints
         /// </summary>
         public override void Iterate()
         {
-            float jv =
+            double jv =
                 body1.linearVelocity * jacobian[0] +
                 body1.angularVelocity * jacobian[1] +
                 body2.linearVelocity * jacobian[2] +
                 body2.angularVelocity * jacobian[3];
 
-            float softnessScalar = accumulatedImpulse * softnessOverDt;
+            double softnessScalar = accumulatedImpulse * softnessOverDt;
 
-            float lambda = -effectiveMass * (jv + bias + softnessScalar);
+            double lambda = -effectiveMass * (jv + bias + softnessScalar);
 
             accumulatedImpulse += lambda;
 

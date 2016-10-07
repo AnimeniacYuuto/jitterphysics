@@ -44,9 +44,9 @@ namespace Jitter.Dynamics.Constraints
         private JVector localAnchor1, localAnchor2;
         private JVector r1, r2;
 
-        private float biasFactor = 0.1f;
-        private float softness = 0.01f;
-        private float distance;
+        private double biasFactor = 0.1f;
+        private double softness = 0.01f;
+        private double distance;
 
         private DistanceBehavior behavior = DistanceBehavior.LimitDistance;
 
@@ -71,12 +71,12 @@ namespace Jitter.Dynamics.Constraints
             distance = (anchor1 - anchor2).Length();
         }
 
-        public float AppliedImpulse { get { return accumulatedImpulse; } }
+        public double AppliedImpulse { get { return accumulatedImpulse; } }
 
         /// <summary>
         /// 
         /// </summary>
-        public float Distance { get { return distance; } set { distance = value; } }
+        public double Distance { get { return distance; } set { distance = value; } }
 
         /// <summary>
         /// 
@@ -96,17 +96,17 @@ namespace Jitter.Dynamics.Constraints
         /// <summary>
         /// Defines how big the applied impulses can get.
         /// </summary>
-        public float Softness { get { return softness; } set { softness = value; } }
+        public double Softness { get { return softness; } set { softness = value; } }
 
         /// <summary>
         /// Defines how big the applied impulses can get which correct errors.
         /// </summary>
-        public float BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
+        public double BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
 
-        float effectiveMass = 0.0f;
-        float accumulatedImpulse = 0.0f;
-        float bias;
-        float softnessOverDt;
+        double effectiveMass = 0.0f;
+        double accumulatedImpulse = 0.0f;
+        double bias;
+        double softnessOverDt;
         
         JVector[] jacobian = new JVector[4];
 
@@ -116,7 +116,7 @@ namespace Jitter.Dynamics.Constraints
         /// Called once before iteration starts.
         /// </summary>
         /// <param name="timestep">The 5simulation timestep</param>
-        public override void PrepareForIteration(float timestep)
+        public override void PrepareForIteration(double timestep)
         {
             JVector.Transform(ref localAnchor1, ref body1.orientation, out r1);
             JVector.Transform(ref localAnchor2, ref body2.orientation, out r2);
@@ -127,7 +127,7 @@ namespace Jitter.Dynamics.Constraints
 
             JVector.Subtract(ref p2, ref p1, out dp);
 
-            float deltaLength = dp.Length() - distance;
+            double deltaLength = dp.Length() - distance;
 
             if (behavior == DistanceBehavior.LimitMaximumDistance && deltaLength <= 0.0f)
             {
@@ -182,25 +182,25 @@ namespace Jitter.Dynamics.Constraints
         {
             if (skipConstraint) return;
 
-            float jv =
+            double jv =
                 body1.linearVelocity * jacobian[0] +
                 body1.angularVelocity * jacobian[1] +
                 body2.linearVelocity * jacobian[2] +
                 body2.angularVelocity * jacobian[3];
 
-            float softnessScalar = accumulatedImpulse * softnessOverDt;
+            double softnessScalar = accumulatedImpulse * softnessOverDt;
 
-            float lambda = -effectiveMass * (jv + bias + softnessScalar);
+            double lambda = -effectiveMass * (jv + bias + softnessScalar);
 
             if (behavior == DistanceBehavior.LimitMinimumDistance)
             {
-                float previousAccumulatedImpulse = accumulatedImpulse;
+                double previousAccumulatedImpulse = accumulatedImpulse;
                 accumulatedImpulse = JMath.Max(accumulatedImpulse + lambda, 0);
                 lambda = accumulatedImpulse - previousAccumulatedImpulse;
             }
             else if (behavior == DistanceBehavior.LimitMaximumDistance)
             {
-                float previousAccumulatedImpulse = accumulatedImpulse;
+                double previousAccumulatedImpulse = accumulatedImpulse;
                 accumulatedImpulse = JMath.Min(accumulatedImpulse + lambda, 0);
                 lambda = accumulatedImpulse - previousAccumulatedImpulse;
             }

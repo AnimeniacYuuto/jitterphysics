@@ -39,8 +39,8 @@ namespace Jitter.Dynamics.Constraints.SingleBody
         private JVector lineNormal = JVector.Right;
         private JVector anchor;
 
-        private float biasFactor = 0.5f;
-        private float softness = 0.0f;
+        private double biasFactor = 0.5f;
+        private double softness = 0.0f;
 
         /// <summary>
         /// Initializes a new instance of the WorldLineConstraint.
@@ -75,17 +75,17 @@ namespace Jitter.Dynamics.Constraints.SingleBody
         /// <summary>
         /// Defines how big the applied impulses can get.
         /// </summary>
-        public float Softness { get { return softness; } set { softness = value; } }
+        public double Softness { get { return softness; } set { softness = value; } }
 
         /// <summary>
         /// Defines how big the applied impulses can get which correct errors.
         /// </summary>
-        public float BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
+        public double BiasFactor { get { return biasFactor; } set { biasFactor = value; } }
 
-        float effectiveMass = 0.0f;
-        float accumulatedImpulse = 0.0f;
-        float bias;
-        float softnessOverDt;
+        double effectiveMass = 0.0f;
+        double accumulatedImpulse = 0.0f;
+        double bias;
+        double softnessOverDt;
 
         JVector[] jacobian = new JVector[2];
 
@@ -93,7 +93,7 @@ namespace Jitter.Dynamics.Constraints.SingleBody
         /// Called once before iteration starts.
         /// </summary>
         /// <param name="timestep">The simulation timestep</param>
-        public override void PrepareForIteration(float timestep)
+        public override void PrepareForIteration(double timestep)
         {
             JVector.Transform(ref localAnchor1, ref body1.orientation, out r1);
 
@@ -134,13 +134,13 @@ namespace Jitter.Dynamics.Constraints.SingleBody
         /// </summary>
         public override void Iterate()
         {
-            float jv =
+            double jv =
                 body1.linearVelocity * jacobian[0] +
                 body1.angularVelocity * jacobian[1];
 
-            float softnessScalar = accumulatedImpulse * softnessOverDt;
+            double softnessScalar = accumulatedImpulse * softnessOverDt;
 
-            float lambda = -effectiveMass * (jv + bias + softnessScalar);
+            double lambda = -effectiveMass * (jv + bias + softnessScalar);
 
             accumulatedImpulse += lambda;
 

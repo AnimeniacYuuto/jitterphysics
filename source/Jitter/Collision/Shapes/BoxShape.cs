@@ -60,7 +60,7 @@ namespace Jitter.Collision.Shapes
         /// <param name="length">The length of the box.</param>
         /// <param name="height">The height of the box.</param>
         /// <param name="width">The width of the box</param>
-        public BoxShape(float length, float height, float width)
+        public BoxShape(double length, double height, double width)
         {
             this.size.X = length;
             this.size.Y = height;
@@ -124,9 +124,9 @@ namespace Jitter.Collision.Shapes
         /// <param name="result">The result.</param>
         public override void SupportMapping(ref JVector direction, out JVector result)
         {
-            result.X = (float)Math.Sign(direction.X) * halfSize.X;
-            result.Y = (float)Math.Sign(direction.Y) * halfSize.Y;
-            result.Z = (float)Math.Sign(direction.Z) * halfSize.Z;
+            result.X = (double)Math.Sign(direction.X) * halfSize.X;
+            result.Y = (double)Math.Sign(direction.Y) * halfSize.Y;
+            result.Z = (double)Math.Sign(direction.Z) * halfSize.Z;
         }
     }
 }

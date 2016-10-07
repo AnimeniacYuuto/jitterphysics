@@ -40,7 +40,7 @@ namespace Jitter
     /// </summary>
     public class World
     {
-        public delegate void WorldStep(float timestep);
+        public delegate void WorldStep(double timestep);
 
         public class WorldEvents
         {
@@ -69,12 +69,12 @@ namespace Jitter
 
             #region Raise Events
 
-            internal void RaiseWorldPreStep(float timestep)
+            internal void RaiseWorldPreStep(double timestep)
             {
                 if (PreStep != null) PreStep(timestep);
             }
 
-            internal void RaiseWorldPostStep(float timestep)
+            internal void RaiseWorldPostStep(double timestep)
             {
                 if (PostStep != null) PostStep(timestep);
             }
@@ -139,16 +139,16 @@ namespace Jitter
 
         private ContactSettings contactSettings = new ContactSettings();
 
-        private float inactiveAngularThresholdSq = 0.1f;
-        private float inactiveLinearThresholdSq = 0.1f;
-        private float deactivationTime = 2f;
+        private double inactiveAngularThresholdSq = 0.1f;
+        private double inactiveLinearThresholdSq = 0.1f;
+        private double deactivationTime = 2f;
 
-        private float angularDamping = 0.85f;
-        private float linearDamping = 0.85f;
+        private double angularDamping = 0.85f;
+        private double linearDamping = 0.85f;
 
         private int contactIterations = 10;
         private int smallIterations = 4;
-        private float timestep = 0.0f;
+        private double timestep = 0.0f;
 
         private Jitter.Collision.IslandManager islands = new IslandManager();
 
@@ -348,7 +348,7 @@ namespace Jitter
         /// The default value is 0.85.</param>
         /// <param name="linearDamping">The factor multiplied with the linear velocity.
         /// The default value is 0.85</param>
-        public void SetDampingFactors(float angularDamping, float linearDamping)
+        public void SetDampingFactors(double angularDamping, double linearDamping)
         {
             if (angularDamping < 0.0f || angularDamping > 1.0f)
                 throw new ArgumentException("Angular damping factor has to be between 0.0 and 1.0", "angularDamping");
@@ -374,7 +374,7 @@ namespace Jitter
         /// <param name="linearVelocity">The threshold value for the linear velocity. The default value
         /// is 0.1</param>
         /// <param name="time">The threshold value for the time in seconds. The default value is 2.</param>
-        public void SetInactivityThreshold(float angularVelocity, float linearVelocity, float time)
+        public void SetInactivityThreshold(double angularVelocity, double linearVelocity, double time)
         {
             if (angularVelocity < 0.0f) throw new ArgumentException("Angular velocity threshold has to " +
                  "be larger than zero", "angularVelocity");
@@ -501,8 +501,8 @@ namespace Jitter
             events.RaiseAddedConstraint(constraint);
         }
 
-        private float currentLinearDampFactor = 1.0f;
-        private float currentAngularDampFactor = 1.0f;
+        private double currentLinearDampFactor = 1.0f;
+        private double currentAngularDampFactor = 1.0f;
 
 #if(!WINDOWS_PHONE)
         Stopwatch sw = new Stopwatch();
@@ -532,7 +532,7 @@ namespace Jitter
         /// (timestep=1/60).</param>
         /// <param name="multithread">If true the engine uses several threads to
         /// integrate the world. This is faster on multicore CPUs.</param>
-        public void Step(float timestep, bool multithread)
+        public void Step(double timestep, bool multithread)
         {
             this.timestep = timestep;
 
@@ -543,8 +543,8 @@ namespace Jitter
             if (timestep < 0.0f) throw new ArgumentException("The timestep can't be negative.", "timestep");
 
             // Calculate this
-            currentAngularDampFactor = (float)Math.Pow(angularDamping, timestep);
-            currentLinearDampFactor = (float)Math.Pow(linearDamping, timestep);
+            currentAngularDampFactor = (double)Math.Pow(angularDamping, timestep);
+            currentLinearDampFactor = (double)Math.Pow(linearDamping, timestep);
 
 #if(WINDOWS_PHONE)
             events.RaiseWorldPreStep(timestep);
@@ -628,7 +628,7 @@ namespace Jitter
 #endif
         }
 
-        private float accumulatedTime = 0.0f;
+        private double accumulatedTime = 0.0f;
 
         /// <summary>
         /// Integrates the whole world several fixed timestep further in time.
@@ -642,7 +642,7 @@ namespace Jitter
         /// integrate the world. This is faster on multicore CPUs.</param>
         /// <param name="maxSteps">The maximum number of substeps. After that Jitter gives up
         /// to keep up with the given totalTime.</param>
-        public void Step(float totalTime, bool multithread, float timestep, int maxSteps)
+        public void Step(double totalTime, bool multithread, double timestep, int maxSteps)
         {
             int counter = 0;
             accumulatedTime += totalTime;
@@ -686,7 +686,7 @@ namespace Jitter
                 else
                 {
                     JVector diff; JVector.Subtract(ref c.p1, ref c.p2, out diff);
-                    float distance = JVector.Dot(ref diff, ref c.normal);
+                    double distance = JVector.Dot(ref diff, ref c.normal);
 
                     diff = diff - distance * c.normal;
                     distance = diff.LengthSquared();
@@ -826,7 +826,7 @@ namespace Jitter
 
                 //exponential map
                 JVector axis;
-                float angle = body.angularVelocity.Length();
+                double angle = body.angularVelocity.Length();
 
                 if (angle < 0.001f)
                 {
@@ -837,10 +837,10 @@ namespace Jitter
                 else
                 {
                     // sync(fAngle) = sin(c*fAngle)/t
-                    JVector.Multiply(ref body.angularVelocity, ((float)Math.Sin(0.5f * angle * timestep) / angle), out axis);
+                    JVector.Multiply(ref body.angularVelocity, ((double)Math.Sin(0.5f * angle * timestep) / angle), out axis);
                 }
 
-                JQuaternion dorn = new JQuaternion(axis.X, axis.Y, axis.Z, (float)Math.Cos(angle * timestep * 0.5f));
+                JQuaternion dorn = new JQuaternion(axis.X, axis.Y, axis.Z, (double)Math.Cos(angle * timestep * 0.5f));
                 JQuaternion ornA; JQuaternion.CreateFromMatrix(ref body.orientation, out ornA);
 
                 JQuaternion.Multiply(ref dorn, ref ornA, out dorn);
@@ -885,7 +885,7 @@ namespace Jitter
             }
         }
 
-        private void CollisionDetected(RigidBody body1, RigidBody body2, JVector point1, JVector point2, JVector normal, float penetration)
+        private void CollisionDetected(RigidBody body1, RigidBody body2, JVector point1, JVector point2, JVector normal, double penetration)
         {
             Arbiter arbiter = null;
 

@@ -38,25 +38,25 @@ namespace Jitter.LinearMath
         /// <summary>
         /// PI.
         /// </summary>
-        public const float Pi = 3.1415926535f;
+        public const double Pi = 3.1415926535f;
 
-        public const float PiOver2 = 1.570796326794f;
+        public const double PiOver2 = 1.570796326794f;
 
         /// <summary>
         /// A small value often used to decide if numeric 
         /// results are zero.
         /// </summary>
-        public const float Epsilon = 1.192092896e-012f;
+        public const double Epsilon = 1.192092896e-012f;
 
         /// <summary>
         /// Gets the square root.
         /// </summary>
         /// <param name="number">The number to get the square root from.</param>
         /// <returns></returns>
-        #region public static float Sqrt(float number)
-        public static float Sqrt(float number)
+        #region public static double Sqrt(double number)
+        public static double Sqrt(double number)
         {
-            return (float)Math.Sqrt(number);
+            return (double)Math.Sqrt(number);
         }
         #endregion
 
@@ -66,8 +66,8 @@ namespace Jitter.LinearMath
         /// <param name="val1">The first value.</param>
         /// <param name="val2">The second value.</param>
         /// <returns>Returns the largest value.</returns>
-        #region public static float Max(float val1, float val2)
-        public static float Max(float val1, float val2)
+        #region public static double Max(double val1, double val2)
+        public static double Max(double val1, double val2)
         {
             return (val1 > val2) ? val1 : val2;
         }
@@ -79,8 +79,8 @@ namespace Jitter.LinearMath
         /// <param name="val1">The first value.</param>
         /// <param name="val2">The second value.</param>
         /// <returns>Returns the smallest value.</returns>
-        #region public static float Min(float val1, float val2)
-        public static float Min(float val1, float val2)
+        #region public static double Min(double val1, double val2)
+        public static double Min(double val1, double val2)
         {
             return (val1 < val2) ? val1 : val2;
         }
@@ -93,10 +93,10 @@ namespace Jitter.LinearMath
         /// <param name="val2">The second value.</param>
         /// <param name="val3">The third value.</param>
         /// <returns>Returns the largest value.</returns>
-        #region public static float Max(float val1, float val2,float val3)
-        public static float Max(float val1, float val2,float val3)
+        #region public static double Max(double val1, double val2,double val3)
+        public static double Max(double val1, double val2,double val3)
         {
-            float max12 = (val1 > val2) ? val1 : val2;
+            double max12 = (val1 > val2) ? val1 : val2;
             return (max12 > val3) ? max12 : val3;
         }
         #endregion
@@ -108,8 +108,8 @@ namespace Jitter.LinearMath
         /// <param name="min">The minimum value.</param>
         /// <param name="max">The maximum value.</param>
         /// <returns>The clamped value.</returns>
-        #region public static float Clamp(float value, float min, float max)
-        public static float Clamp(float value, float min, float max)
+        #region public static double Clamp(double value, double min, double max)
+        public static double Clamp(double value, double min, double max)
         {
             value = (value > max) ? max : value;
             value = (value < min) ? min : value;
