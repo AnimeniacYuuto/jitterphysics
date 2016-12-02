@@ -53,6 +53,7 @@
     <Compile Include="Collision\Shapes\ConeShape.cs" />
     <Compile Include="Collision\Shapes\ConvexHullShape.cs" />
     <Compile Include="Collision\Shapes\CylinderShape.cs" />
+    <Compile Include="Collision\Shapes\DynamicShape.cs" />
     <Compile Include="Collision\Shapes\MinkowskiSumShape.cs" />
     <Compile Include="Collision\Shapes\Multishape.cs" />
     <Compile Include="Collision\Shapes\Shape.cs" />
